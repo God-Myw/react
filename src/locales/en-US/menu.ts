@@ -1,0 +1,16 @@
+export default {
+  'menu.home': 'User Center',
+  'menu.confirm.logout': 'Are you sure to logout?',
+  'menu.expert.online': 'Expert Online',
+  'menu.logout': 'Log Out',
+  'menu.auth.state': 'Auth State',
+  'menu.account_manager': 'Account Manager',
+  'menu.profile_certification': 'Profile Certification',
+  'menu.international_en': 'ENGLISH',
+  'menu.international_zn': '中文',
+  'menu.confirm': 'Confirm',
+  'menu.cancel': 'Cancel',
+  'menu.auditCustomerService':'Audit Customer Service',
+  'menu.offlineCustomerService':'Offline Customer Service',
+  'menu.onlineCustomerService':'Online Customer Service',
+};

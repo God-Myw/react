@@ -1,0 +1,97 @@
+<div className={commonCss.searchRow}>
+  <Row gutter={24}>
+    <Col span={24}>
+      <InputGroup compact>
+        <Input
+          style={{ width: '16%' }}
+          placeholder="请输入订单编号名称搜索"
+          onChange={e => this.setState({ orderNumber: e.target.value })}
+
+        />
+        <span style={{ width: '1%' }}></span>
+        <Select defaultValue="请选择订单状态查询" allowClear={true} style={{ width: '15%' }} onChange={this.handleChange}>
+          <Option value="0">进行中</Option>
+          <Option value="1">已完成</Option>
+          <Option value="2">已取消</Option>
+        </Select>
+        <span style={{ width: '1%' }}></span>
+
+        <Select defaultValue="请选择出发地" allowClear={true} style={{ width: '10%' }} onChange={this.chufa}>
+            {isNil(this.state) || isNil(this.state.chufadi) ? '' :  this.state.chufadi .map((item: any) => (
+              <option value={item}>{item}</option>
+            ))}
+        </Select>
+
+        <span style={{ width: '1%' }}></span>
+        <Select defaultValue="请选择目的地" allowClear={true} style={{ width: '10%' }} onChange={this.mudi}>
+            {isNil(this.state) || isNil(this.state.mudidi) ? '' :  this.state.mudidi .map((item: any) => (
+              <option value={item}>{item}</option>
+            ))}
+        </Select>
+        <span style={{ width: '1%' }}></span>
+        <Input
+          style={{ width: '34%' }}
+          placeholder="请输入订单日期查询，格式为：xxxx-xx-xx (例：2021-05-12或2021-07-07)"
+          onChange={e => this.setState({ createDate: e.target.value })}
+          // onKeyUp={this.keyUp}
+        />
+        <span style={{ width: '1%' }}></span>
+
+        <QueryButton
+          type="Query"
+          text="搜索"
+          event={() => this.findAll()}
+          disabled={true}
+        />
+      </InputGroup>
+    </Col>
+  </Row>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<Row gutter={24}>
+  <Col span={24}>
+    <Form.Item
+      style={{ marginBottom: '-5px', paddingBottom: '0px', width: '11.95%', float: 'left' }}
+    >
+      <Button
+        style={{
+          width: '100%',
+          backgroundColor: this.state.buttonB ? '#135A8D' : '#003750',
+          color: '#FFFFFF',
+        }}
+        onClick={this.selectB}
+      >
+        国际货盘
+      </Button>
+    </Form.Item>
+
+    <Form.Item
+      style={{ marginBottom: '-5px', paddingBottom: '0px', width: '11.95%', float: 'left' }}
+    >
+      <Button
+        style={{
+          width: '100%',
+          backgroundColor: this.state.buttonA ? '#135A8D' : '#003750',
+          color: '#FFFFFF',
+        }}
+        onClick={this.selectA}
+      >
+        国内货盘
+      </Button>
+    </Form.Item>
+
+
+  </Col>
+</Row>

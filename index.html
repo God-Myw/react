@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=./logo.ico><title>道裕物流</title><link rel=stylesheet href=//at.alicdn.com/t/font_1555246_ookdhmmh1z.css><link rel=stylesheet href=https://unpkg.com/element-ui@2.12.0/lib/theme-chalk/index.css><script src=https://unpkg.com/vue@2.6.10/dist/vue.min.js></script><script src=https://unpkg.com/vue-router@3.1.3/dist/vue-router.js></script><script src=https://unpkg.com/element-ui@2.12.0/lib/index.js></script><script src=https://code.jquery.com/jquery-3.4.1.min.js></script><script src=https://res.wx.qq.com/open/js/jweixin-1.4.0.js></script><link href=css/chunk-6e72e480.28b4ef63.css rel=prefetch><link href=js/chunk-6e72e480.d55b9447.js rel=prefetch><link href=css/app.e9081971.css rel=preload as=style><link href=js/app.6370cd35.js rel=preload as=script><link href=js/chunk-vendors.e0c0b10e.js rel=preload as=script><link href=css/app.e9081971.css rel=stylesheet><link rel=icon type=image/png sizes=32x32 href=img/icons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=img/icons/favicon-16x16.png><link rel=manifest href=manifest.json><meta name=theme-color content=#4DBA87><meta name=apple-mobile-web-app-capable content=no><meta name=apple-mobile-web-app-status-bar-style content=default><meta name=apple-mobile-web-app-title content=myapp><link rel=apple-touch-icon href=img/icons/apple-touch-icon-152x152.png><link rel=mask-icon href=img/icons/safari-pinned-tab.svg color=#4DBA87><meta name=msapplication-TileImage content=img/icons/msapplication-icon-144x144.png><meta name=msapplication-TileColor content=#000000></head><body><noscript><strong>We're sorry but myapp doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=js/chunk-vendors.e0c0b10e.js></script><script src=js/app.6370cd35.js></script></body><script>//微信分享
+    $.ajax({
+				        url: "http://47.101.56.77:10443/api/business/weChatPay/webGetWXDetail",
+				        success: function (data) {
+         
+                    if(data.code == "0000"){
+                      console.log(data)
+				            //     //通过config接口注入权限验证配置
+				                wx.config({
+				                    debug: false,
+				                    appId: data.appId,
+				                    timestamp: data.timestamp,
+				                    nonceStr: data.noncestr,
+				                    signature: data.sign,
+				                    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ']
+				                });
+				                wx.ready(function () {
+				                    var s_title = '中国-北美线集装箱租赁',  // 分享标题
+                            s_link = "https://www.yoribo.com/gsxly2d/index.html#/",  // 分享链接
+                            s_desc = '出租：中国各大主港；还箱：美国、加拿大各大主港',  //分享描述
+                            s_imgUrl = '../src/assets/img/2186c395e11df8b1fa5a769c3f6caec.jpg'; // 分享图标
+				                    //朋友圈
+				                    wx.onMenuShareTimeline({
+				                        title: s_title, // 分享标题
+				                        link: s_link, // 分享链接
+				                        imgUrl: s_imgUrl, // 分享图标
+				                        success: function () { },
+				                        cancel: function () { }
+				                    });
+				                    //发送给好友
+				                    wx.onMenuShareAppMessage({
+				                        title: s_title, // 分享标题
+				                        desc: s_desc, // 分享描述
+				                        link: s_link, // 分享链接
+				                        imgUrl: s_imgUrl, // 分享图标
+				                        type: '', // 分享类型,music、video或link，不填默认为link
+				                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				                        success: function () {
+                                  alert(111)
+                                },
+				                        cancel: function () { }
+				                    });
+				                    //QQ好友
+				                    wx.onMenuShareQQ({
+				                        title: s_title, // 分享标题
+				                        desc: s_desc, // 分享描述
+				                        link: s_link, // 分享链接
+				                        imgUrl: s_imgUrl, // 分享图标
+				                        success: function () { },
+				                        cancel: function () { }
+				                    });
+				                    //腾讯微博
+				                    wx.onMenuShareWeibo({
+				                        title: s_title, // 分享标题
+				                        desc: s_desc, // 分享描述
+				                        link: s_link, // 分享链接
+				                        imgUrl: s_imgUrl, // 分享图标
+				                        success: function () { },
+				                        cancel: function () { }
+				                    });
+				                });
+                        wx.error(function(res){
+                            console.log(res)
+                          });
+				            }else{
+				                alert(data);
+				            }
+				        }
+				    })</script></html>

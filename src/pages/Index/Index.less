@@ -1,0 +1,382 @@
+@import '~antd/es/style/themes/default.less';
+
+.funcModelName {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+#areaOne,
+#areaTwo {
+  margin-right: 20px;
+  background: #fff;
+  min-height: 360px;
+  width: 47%;
+  float: left;
+  margin-left: 1%;
+  min-width: 650px;
+}
+
+/*不需要认证*/
+#areaOne > .noNeedAuth,
+#areaTwo > .noNeedAuth {
+  width: 30%;
+  height: 130px;
+  line-height: 150px;
+  text-align: center;
+  float: left;
+  margin: 10px;
+  background: #135a8d;
+  color: white;
+  position: relative;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
+#areaOne > .needAuth,
+#areaTwo > .needAuth {
+  width: 30%;
+  height: 130px;
+  line-height: 150px;
+  text-align: center;
+  float: left;
+  margin: 10px;
+  background: #14405f;
+  color: white;
+  position: relative;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
+/*图标大小*/
+#areaOne > .noNeedAuth .img,
+#areaTwo > .noNeedAuth .img {
+  margin: auto;
+  height: 35%;
+  line-height: inherit;
+  margin-top: -80px;
+}
+
+#areaOne > .noNeedAuth a,
+#areaTwo > .noNeedAuth a {
+  color: white;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  line-height: 60px;
+}
+
+/*图标大小*/
+#areaOne > .needAuth .img,
+#areaTwo > .needAuth .img {
+  margin: auto;
+  width: 18%;
+  height: 35%;
+  line-height: inherit;
+  margin-top: -80px;
+}
+
+#areaOne > .needAuth a,
+#areaTwo > .needAuth a {
+  color: white;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  line-height: 60px;
+}
+
+#areaOne > .needAuth div,
+#areaTwo > .needAuth div {
+  font-size: 16px;
+  color: white;
+  width: 50%;
+  height: 20%;
+  bottom: 0px;
+  position: absolute;
+  left: 0;
+  top: 10;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  line-height: 20px;
+}
+
+// .ant-select-selection--single :last-child {
+//   height: 50px;
+// }
+
+.requiredLabel {
+  // margin-left:30px;
+  // align-items: center;
+  width: 20%;
+  // font-size:16px;
+  // color:#000000;
+  // font-family:Source Han Sans SC;
+  // text-align:left;
+}
+
+.editPageInput {
+  width: 70%;
+}
+
+.editPageCol {
+  display: flex !important;
+  align-items: center;
+}
+
+.img > .voyage {
+  background-image: url(../Image/MenuIcon/pallet_public.png);
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+}
+
+/*客服咨询*/
+.chatModal {
+  margin: 0 2% 0 12%;
+  top: 5%;
+  height: 90%;
+  padding: 0;
+}
+.chatModal .ant-modal-content {
+  height: 100%;
+}
+.chatModal .ant-modal-content .ant-modal-body {
+  height: calc(100% - 55px);
+}
+.chatBox {
+  width: 100%;
+  height: 100%;
+}
+.chatBox .layout-left {
+  width: 240px;
+  height: 100%;
+  border-right: 1px solid #f0f2f5;
+  float: left;
+}
+.chatBox .layout-right {
+  width: calc(100% - 240px);
+  height: 100%;
+  float: right;
+}
+.chatBox .layout-left .searchBox {
+  margin-bottom: 20px;
+}
+.chatBox .layout-left .searchBox .searchInput {
+  width: 90%;
+  margin: 0 auto;
+  background: #e6e6e6;
+  border: 0;
+}
+.chatBox .layout-left .personList {
+  height: calc(100% - 52px);
+}
+.chatBox .layout-left .personList ul {
+  padding: 0;
+  overflow: auto;
+  height: 100%;
+}
+.chatBox .layout-left .personList ul li {
+  padding: 0 10px;
+  height: 72px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-right: 2px;
+}
+.chatBox .layout-left .personList ul li .personBg {
+  border-bottom: 1px solid #dedede;
+  height: 100%;
+  padding: 10px 0;
+}
+.chatBox .layout-left .personList ul li.active,
+.chatBox .layout-left .personList ul li:hover {
+  background: #efefef;
+  border-radius: 3px;
+  border: 1px solid #bfbfbf;
+}
+.chatBox .layout-left .personList ul li.active .personBg,
+.chatBox .layout-left .personList ul li:hover .personBg {
+  border-bottom: 1px solid transparent;
+}
+.chatBox .layout-left .personList ul li .avatarImg {
+  float: left;
+  margin-right: 10px;
+  border: 1px solid #bfbfbf;
+}
+.chatBox .layout-left .personList ul li .avatarImg img {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+}
+.chatBox .layout-left .personList ul li .content {
+  float: left;
+  width: calc(100% - 62px);
+}
+.chatBox .layout-left .personList ul li .content p {
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chatBox .layout-left .personList ul li .content .personName {
+  color: #000;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+.chatBox .layout-left .personList ul li .content .chatMessgae {
+  color: #c3c3c3;
+  font-size: 14px;
+}
+.chatBox .layout-right .chat-wrapper {
+  background: #f4f4f4;
+  height: 100%;
+}
+.chatBox .layout-right .chat-wrapper .chat-content {
+  height: calc(100% - 150px);
+  border-bottom: 1px solid #dedede;
+  overflow: auto;
+}
+.chatBox .layout-right .chat-content ul.list {
+  padding: 20px 20px 0;
+  margin: 0;
+}
+.chatBox .layout-right .chat-content ul.list li {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem {
+  height: 41px;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem .userImg {
+  float: left;
+  background: #fff;
+  width: 41px;
+  margin-right: 10px;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem .userImg img {
+  width: 35px;
+  height: 35px;
+  margin: 3px;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem .msg-render {
+  float: left;
+  max-width: 60%;
+  background: #fff;
+  border-radius: 5px;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem .msg-render p {
+  text-align: left;
+  margin: 0;
+  padding: 10px;
+  word-wrap: break-word;
+  color: #000;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem.myChat .userImg {
+  float: right;
+  margin: 0 0 0 10px;
+}
+.chatBox .layout-right .chat-content ul.list .chatItem.myChat .msg-render {
+  float: right;
+}
+.chatBox .layout-right .chat-wrapper .imput-msg {
+  height: 150px;
+  padding: 10px 20px 0;
+}
+.chatBox .layout-right .chat-wrapper .toolbox {
+  text-align: left;
+  overflow: hidden;
+}
+.chatBox .layout-right .chat-wrapper .toolbox img {
+  width: 25px;
+  height: 25px;
+  float: left;
+  cursor: pointer;
+}
+.chatBox .layout-right .chat-wrapper .imput-msg textarea {
+  width: 100%;
+  height: 80px;
+  background: #f4f4f4;
+  border: 0;
+  resize: none;
+}
+.chatBox .layout-right .chat-wrapper .imput-msg textarea:focus {
+  border: 0;
+  outline: none;
+}
+.chatBox .layout-right .chat-wrapper .imput-msg .send {
+  width: 70px;
+  float: right;
+}
+.chatBox .layout-left .personList ul li .avatarImg {
+  position: relative;   //新增样式
+}
+.chatBox .layout-left .personList ul li .avatarImg .newsNumber{
+  height: 16px;
+  line-height:16px;
+  display:inline-block;
+  background: #DB5F5F;
+  color: #fff;
+  font-size:12px;
+  padding: 0 5px;
+  position:absolute;
+  top: -8px;
+  right: -10px;
+  border-radius: 15px;
+  min-width: 22px;
+}
+.chatBox .layout-right .systemNews{
+  height: 100%;
+  background: #f4f4f4;
+  padding: 20px 20px 0;
+  overflow: auto;
+}
+.chatBox .layout-right .systemNews .news{
+  width: 60%;
+  background: #fff;
+  margin-bottom:20px;
+}
+.chatBox .layout-right .systemNews .news .title .time{
+  float: right;
+  color:#acacac;
+  font-size: 14px;
+  margin-right: 10px;
+}
+.chatBox .layout-right .systemNews .news .content{
+  padding:0 20px 20px;
+}
+.chatBox .layout-right .systemNews .news .content p{
+  color: #000;
+  text-indent: 2em;
+  text-align: left;
+  margin:0;
+}
+.chatBox .layout-right .systemNews .news .content p .date {
+  color:#DB5F5F;
+}
+/*客服咨询结束*/
+
+.picModal{
+  width: 65%!important;
+}
+
+.ant-notification-notice-with-icon{
+  position: relative;
+  display: flex;
+}
+
+.ant-notification-close-icon{
+  display: none;
+}
+
+.protocolModal{
+  width: 780px!important;
+}

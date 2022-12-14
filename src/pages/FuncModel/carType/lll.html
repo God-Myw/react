@@ -1,0 +1,229 @@
+// 同上一样
+  getsource() {
+    const data_Source: UserModel[] = [];
+    let param: Map<string, string> = new Map();
+    param.set('type', '1');
+
+    param.set('companyName', this.state.companyName ? this.state.companyName : '');
+    param.set('phoneNumber', this.state.phoneNumber ? this.state.phoneNumber : '');
+
+    param.set('companyType', this.state.companyType ? this.state.companyType : '');
+
+    param.set('adsStatus', this.state.adsStatus);
+    param.set('currentPage', this.state.currentPage.toString());
+    param.set('pageSize', this.state.pageSize.toString());
+    //param.set('date',moment().format('YYYY-MM-DD HH:mm:ss'));
+    // 认证资料一览
+    // /business/adsDictionary/getAdsDictionaryList/2
+    getRequest('/business/ads/getAdsInfoByStatus', param, (response: any) => {
+      console.log(response)
+      if (response.status === 200) {
+        if (!isNil(response.data.records)) {
+          forEach(response.data.records, (userDataCheck, index) => {
+            // console.log(userDataCheck)
+            const entity: UserModel = {};
+            entity.usersIndex = index + (this.state.currentPage - 1) * this.state.pageSize + 1;
+            entity.key = index + 1;
+            entity.companyName = userDataCheck.company_name;
+            entity.userName = userDataCheck.contacts;
+            entity.phoneNumber = userDataCheck.phone_number;
+            entity.companyType = userDataCheck.company_type;
+            // console.log(entity.phoneNumber)
+            // entity.companyType = userDataCheck.company_type;
+            // entity.setMealType = userDataCheck.order_level;
+            if(userDataCheck.order_level === 1){
+              entity.setMealType = '免费体验'
+            }else if(userDataCheck.order_level === 2){
+              entity.setMealType = '基础套餐'
+            }else if(userDataCheck.order_level === 3){
+              entity.setMealType =  '升级套餐'
+            }else if(userDataCheck.order_level === 4){
+              entity.setMealType = '白金套餐'
+            }else if(userDataCheck.order_level === 5){
+              entity.setMealType= '皇冠套餐'
+            }else{
+            };
+            if(userDataCheck.start_date == null || userDataCheck.end_date==null){
+              entity.setMealTime = ''
+            }else{
+              let start = userDataCheck.start_date
+              let end = userDataCheck.end_date
+              let startdate=new Date(start).getFullYear() + '-' + (new Date(start).getMonth() + 1) + '-' + new Date(start).getDate();
+              let enddate=new Date(end).getFullYear() + '-' + (new Date(end).getMonth() + 1) + '-' + new Date(end).getDate();
+              entity.setMealTime =  startdate + ' 至 ' + enddate;
+            };
+            entity.userType = userDataCheck.usertype;
+            entity.guid = userDataCheck;
+            // console.log(userDataCheck.usertype)end
+            // entity.faxNumber = userDataCheck.faxNumber;
+            // entity.bankType = userDataCheck.bankType;
+            // entity.bankNumber = userDataCheck.bankNumber;
+            // entity.total = response.data.total;
+            // entity.userId = userDataCheck.userId;
+            entity.currentPage = response.data.current;
+
+            // console.log(response.data.current)
+            data_Source.push(entity);
+          });
+
+        }
+        this.setState({
+          dataSource: data_Source,
+          total: response.data.total,
+          currentPage: response.data.current,
+        });
+        // console.log(this.state.dataSource)
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div className={commonCss.searchRow}>
+    <Row gutter={24}>
+      <Col span={24}>
+        <InputGroup compact >
+          <Select
+          defaultValue="服务商类型" style={{ width: '20%' }} allowClear={true} onChange={this.selectChange}>
+          {/* this.state.cpt.map((item:any)=>(
+              console.log(item.adsType)
+            )) */}
+            {this.state.cpt.map((item: any) => (
+                <option value={item.adsType}>{item.adsType}</option>
+              ))}
+              {/* {getDictDetail('ship_type').map((item: any) => (
+              <option value={item.code}>{item.textValue}</option>
+            ))} */}
+          </Select>
+          <Input
+            style={{ width: '25%' }}
+            placeholder="请输入联系方式"
+            onChange={e => this.setState({ phoneNumber: e.target.value })}
+            onKeyUp={this.keyUp}
+          />
+          <Input
+            style={{ width: '50%' }}
+            placeholder="请输入公司名称搜索"
+            onChange={e => this.setState({ companyName: e.target.value })}
+            onKeyUp={this.keyUp}
+          />
+
+          <QueryButton type="Query" text="搜索" event={() => this.findAll()} disabled={false} />
+        </InputGroup>
+      </Col>
+    </Row>
+  </div>
+
+
+
+
+
+
+
+  // columns:[],
+    // columns0 : [
+    //   {
+    //     title: '序号',
+    //     dataIndex: 'name',
+    //     // render: text => <a>{text}</a>,
+    //   },
+    //   {
+    //     title: '车种名称',
+    //     dataIndex: 'age',
+    //   },
+    // ],
+
+    // columns1:[
+    //   {
+    //     title: '序号',
+    //     dataIndex: 'name',
+    //     // render: text => <a>{text}</a>,
+    //   },
+    //   {
+    //     title: '规格',
+    //     dataIndex: 'age',
+    //   },
+    //   {
+    //     title: '字段属性',
+    //     dataIndex: 'address',
+    //   },
+    //   {
+    //     title: '字段长度',
+    //     dataIndex: 'address',
+    //   },
+    // ],
+
+
+
+
+
+
+
+
+
+
+
+    treeData: [
+    {
+      title: '车',
+      key: '0-0',
+      children: [
+        {
+          title: '吊车',
+          key: '0-0-0',
+          children: [
+            { title: '长', key: '0-0-0-0' },
+            { title: '宽', key: '0-0-0-1' },
+            { title: '高', key: '0-0-0-2' },
+          ],
+        },
+
+        {
+          title: '卡车',
+          key: '0-0-1',
+          children: [
+            { title: '长', key: '0-0-1-0' },
+            { title: '宽', key: '0-0-1-1' },
+          ],
+        },
+      ],
+    },
+
+    {
+      title: '船',
+      key: '0-1',
+      children: [
+        {
+          title: '大船',
+          key: '0-1-0',
+          children: [
+            { title: '长', key: '0-1-0-0' },
+            { title: '宽', key: '0-1-0-1' },
+            { title: '高', key: '0-1-0-2' },
+          ],
+        },
+
+        {
+          title: '小船',
+          key: '0-1-1',
+          children: [
+            { title: '长', key: '0-1-1-0' },
+            { title: '宽', key: '0-1-1-1' },
+          ],
+        },
+      ],
+    },
+  ],

@@ -1,0 +1,350 @@
+
+
+
+
+
+
+<!-- 此代码是我修改之前的代码 -->
+
+
+
+
+
+
+{
+  isNil(this.state) || isNil(this.state.quotationDto) ? '' : this.state.quotationDto.map(item => {
+    // console.log(item[0].type)
+    return (
+        <div key={item.guid}>
+          <Row gutter={24}>
+            {
+               !isNil(this.state) && this.state.CGCG == 'G'?(
+                <Col span={8}>
+                  <Form.Item {...formlayout} label="海运费">
+                        <span style={ { color: 'red', fontSize: '20px'}}>
+                          {
+                            item.oceanFreight?item.currency === 0 ?'$'+item.oceanFreight+'USD':item.currency === 2?'€'+item.oceanFreight+'EURO':'￥'+item.oceanFreight+'RMB':null
+                          }
+                          {/* {'$'+item.oceanFreight+'USD'} */}
+                        </span>
+                        <span style={{marginLeft: '22%' }}>
+                          {moment(item.createDate).format('YYYY/MM/DD')}
+                        </span>
+                  </Form.Item>
+                </Col>
+               ):(
+                <Col span={8}>
+                  <Form.Item {...formlayout} label="航运费">
+                        <span style={ { color: 'red', fontSize: '20px'}}>
+
+                          {
+
+                            item.insertFlag === 1 ?'￥'+item.turnkeyProject+'元' : item.tonnage === ''?'' :'￥'+item.tonnage+'元/吨'
+                          }
+                        </span>
+                        <span style={{marginLeft: '22%' }}>
+                          {moment(item.createDate).format('YYYY/MM/DD')}
+                        </span>
+                  </Form.Item>
+                </Col>
+               )
+            }
+          </Row>
+
+          <Row gutter={24}>
+            {
+              !isNil(this.state) && this.state.CGCG == 'G'?(
+                <Col span={8}>
+                  <Form.Item {...formlayout} label="计费方式">
+                          {
+                            item.chargeMode == 0 ? <span>Per.MT</span> : item.chargeMode == 1 ? <span>Per. W/M</span> : item.chargeMode == 2 ?<span>Per.CBM</span> : null
+                          }
+                  </Form.Item>
+                </Col>
+              ):(
+                <Col span={8}>
+                  <Form.Item {...formlayout} label="计费方式">
+                    {
+                      item.insertFlag === 1 ?'总包干价' : '按吨计费'
+                    }
+                  </Form.Item>
+                </Col>
+              )
+            }
+
+          </Row>
+
+          {
+            !isNil(this.state) && this.state.CGCG == 'G'?(
+              <div>
+                <Row gutter={24}>
+                    <Col span={8}>
+                      <Form.Item {...formlayout} label="运费条款">
+                            <span>
+                              {
+                                item.freightClause == 0 ? 'FILO': item.freightClause == 1 ? 'FLT' : item.freightClause == 2 ? 'LIFO' : item.freightClause == 3 ? 'FIO' : item.freightClause == 4 ? 'FIOST':null
+                              }
+                            </span>
+                      </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={8}>
+                    <Form.Item {...formlayout} label="佣金">
+                          <span>
+                            {
+                              'Add.com'+(isNil(this.state) || isNil(this.state.addCommission) ? '无佣金' : this.state.addCommission)+'+'+'com'+(isNil(this.state) || isNil(this.state.commission) ? '无佣金' : this.state.commission)
+                            }
+                          </span>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
+
+            ):
+              null
+          }
+
+
+          <Row gutter={24}>
+            <Col>
+              <HrComponent text="dashed" />
+            </Col>
+          </Row>
+        </div>
+      )
+    })
+}
+
+
+
+
+
+
+
+
+<Col span={12}>
+  <Form.Item {...formlayout} label='是否需要其他联合运输'>
+  {
+    !isNil(this.state) && this.state.unionTransport == '1' ? (
+        <Icon type="check-circle" theme="filled" />
+        ) : <Icon type="close-circle" />
+  }
+  {
+
+      // <Input style={{width:'40%',marginLeft:'30px'}}
+      //   onChange={e => this.setState({ lianheMoney: e.target.value })}
+      // />
+      getFieldDecorator('qq', {
+        rules:[{
+            required:false,
+            pattern: new RegExp(/^[0-9]+(\.[0-9]{1,2})?$/, "g"),
+            message: '请正确输入一到两位小数的正数'
+        }],
+        getValueFromEvent: (event) => {
+            return event.target.value.replace(/\D\./g,'')
+        },
+        initialValue:''
+    })(<Input style={{ width:'40%',marginLeft:'30px' }}
+
+    onChange={e => this.setState({ lianheMoney: e.target.value})} />)
+
+  }
+  </Form.Item>
+</Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<List
+grid={{ gutter: 16, column: 4 }}
+dataSource={isNil(this.state) || isNil(this.state.quotationDto_1) ? '': this.state.quotationDto_1}
+renderItem={item => (
+  <List.Item>
+            <div>
+              <Card >
+                {'其他联合运输：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null) + (item.lianheMoney)}
+                <br />
+                <br />
+                {'绑扎：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.bangzhaMoney}
+                <br />
+                <br />
+                {'集港：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.jigangMoney}
+                <br/>
+                <br />
+                {'海运险：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.haiyunMoney}
+                <br/>
+                <br />
+                {'卡车运输险：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.kacheMoney}
+                <br/>
+                <br />
+                {'江河海运险：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.jianghaiyunMoney}
+              </Card>
+
+              <Card  style={{color:'red'}}>
+                {'总计：'+(item.moneyType === 1?'￥':item.moneyType === 0?'$':item.moneyType===2?'€':null)+item.sumMoney }
+                  <br/>
+                  <br />
+                {'报价时间：'+moment(item.updateDate).format('YYYY/MM/DD')}
+              </Card>
+            </div>
+  </List.Item>
+)}
+/>
+
+
+
+
+
+
+
+
+{/* <Row gutter={24}>
+  <Col span={12}>
+    <Form.Item {...formlayout} label='操作'>
+
+            <Col span={14}>
+              <Form.Item {...formlayout} label="报价单位">
+                <Select defaultValue="人民币" style={{ width: '85%' }} onChange={this.handleChange}>
+                  <Option value="1">人民币</Option>
+                  <Option value="0">美元</Option>
+                  <Option value="2">欧元</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+
+    </Form.Item>
+  </Col>
+</Row> */}
+
+
+
+
+
+
+
+
+
+
+
+{
+  isNil(this.state) || isNil(this.state.quotationDto_1) ? '': this.state.quotationDto_1.map(item=>{
+    let jq = '';
+    if(item.moneyType === 1) {
+      jq = '￥'
+    }else if(item.moneyType === 0){
+      jq = '$'
+    }else if(item.moneyType === 2){
+      jq = '€'
+    }
+    return (
+      <div key={item.guid}>
+        {
+          item.lianheMoney === 0 ? null : (
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="其他联合运输">
+                    {jq + item.lianheMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.bangzhaMoney === 0 ? null : (
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="绑扎">
+                    {jq + item.bangzhaMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.jigangMoney === 0 ? null : (
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="集港">
+                    {jq + item.jigangMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.haiyunMoney === 0 ? null : (
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="海运险">
+                    {jq + item.haiyunMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.kacheMoney === 0 ? null : (
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="卡车运输险">
+                    {jq + item.kacheMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.jianghaiyunMoney === 0 ? null:(
+            <Row gutter={24}>
+              <Col span={8}>
+                <Form.Item {...formlayout} label="江河海运险">
+                    {jq + item.jianghaiyunMoney}
+                </Form.Item>
+              </Col>
+            </Row>
+          )
+        }
+        {
+          item.sumMoney === 0 ? null : (
+            <div>
+              <Row gutter={12}>
+                <Col span = {4}>
+                  <HrComponent text="dashed" />
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col span={12}>
+                  <Form.Item {...formlayout} label="总计" >
+                      {jq + item.sumMoney}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col span={8}>
+                    <Form.Item {...formlayout} label="报价时间" style={{color:'red'}}>
+                        {moment(item.updateDate).format('YYYY/MM/DD')}
+                    </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col span={12}>
+                  <HrComponent text="dashed" />
+                </Col>
+              </Row>
+            </div>
+          )
+        }
+      </div>
+    )
+  })
+}

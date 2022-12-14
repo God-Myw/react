@@ -1,0 +1,15 @@
+export default {
+    'index-accountManager-id.null':'ID不能为空！',
+    'index-accountManager-password':'账号密码',
+    'index-accountManager-family.name':'姓',
+    'index-accountManager-family.name.null':'姓不能为空！',
+    'index-accountManager-name':'名',
+    'index-accountManager-name.null':'名不能为空！',
+    'index-accountManager-email':'邮箱',
+    'index-accountManager-email.null':'邮箱不能为空！',
+    'index-accountManager-email.correct':'请输入正确的邮箱格式',
+    'index-accountManager-phonenumber':'手机号码',
+    'index-accountManager-phonenumber.null':'手机号码不能为空！',
+    'index-accountManager-submit':'保存',
+    'index-accountManager-reset.password':'重置密码',
+};

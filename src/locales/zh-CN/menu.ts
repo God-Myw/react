@@ -1,0 +1,17 @@
+export default {
+  'menu.home': '用户中心',
+  'menu.confirm.logout': '请确认是否登出?',
+  'menu.expert.online': '在线咨询',
+  'menu.logout': '退出登录',
+  'menu.auth.state': '认证状态',
+  'menu.account_manager': '账号管理',
+  'menu.profile_certification': '资料认证',
+  'menu.international_en': 'ENGLISH',
+  'menu.international_zn': '中文',
+  'menu.confirm': '确定',
+  'menu.cancel': '取消',
+  'menu.pallet.list': '货盘列表',
+  'menu.auditCustomerService':'审核客服',
+  'menu.offlineCustomerService':'线下客服',
+  'menu.onlineCustomerService':'跟踪客服',
+};

@@ -1,0 +1,124 @@
+@import '~antd/es/style/themes/default.less';
+
+body {
+  background: linear-gradient(90deg, rgba(22, 47, 64, 1), rgba(21, 59, 85, 1));
+  text-align: center;
+}
+.containerCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0 0 -480px;
+  width: 960px;
+  height: 500;
+  display: block;
+  border: 2px solid rgba(15, 61, 91, 1);
+  // box-shadow: 0px 14px 42px 4px rgba(128, 128, 128, 0.25);
+}
+
+.containerLeft {
+  width: 60%;
+  min-height: 500px;
+  float: left;
+  background: #153a53;
+  position: relative;
+}
+
+.containerright {
+  width: 40%;
+  float: left;
+  min-height: 500px;
+  background: rgba(26, 65, 90, 1);
+  text-align: center;
+}
+.logoClass {
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  max-width: 50px;
+  height: auto;
+}
+.loginClass {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80%;
+  left: 10%;
+}
+.containerTab {
+  float: center;
+  margin: 8% 8% 0 10%;
+}
+
+.containerright .ant-tabs-tab-active .ant-tabs-tab {
+  color: #fafbfb;
+  font-size: 20px;
+}
+
+.containerright .ant-tabs-tab {
+  color: #b5b6b6;
+  font-size: 20px;
+}
+
+.registerClass {
+  width: 80%;
+  color: #2eaef7;
+}
+.titleClass {
+  margin: 0 0 0 -6%;
+}
+
+/*注册页面样式*/
+.containerRegister {
+  width: 98%;
+  margin-left: 1%;
+  min-height: 900px;
+  position: relative;
+  line-height: inherit;
+  background: #013c5a;
+}
+
+.registerPanel .ant-typography {
+  color: white;
+}
+
+.registerPanel {
+  margin: auto;
+  width: 50%;
+  background: #264a5e;
+  z-index: 10;
+  min-height: 800px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-top: 2%;
+  min-width: 700px;
+}
+
+.registerPanel .ant-typography {
+  text-align: center;
+}
+
+.ant-radio-group {
+  width: 98%;
+}
+
+.ant-radio-group > label {
+  width: 45%;
+}
+
+// .ant-form .ant-radio-group label input[type='radio']{
+//     box-sizing: border-box;
+//     padding-top: -10px;
+// }
+
+.ant-form .ant-radio-group label {
+  font-size: 24px;
+  color: white;
+}
+
+.ant-radio-input {
+  padding-top: -10px;
+}

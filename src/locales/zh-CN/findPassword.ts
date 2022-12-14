@@ -1,0 +1,16 @@
+export default {
+    'Index-FindPass-title':'找回密码',
+    'Index-FindPass-getVerificationCode':'获取验证码',
+    'Index-FindPass-contrastNewOldPass':'前后输入的密码不一致!',
+    'Index-FindPass-wrongPhone':'手机号位数不对',
+    'Index-FindPass-successfullySentVerification':'发送验证码成功',
+    'Index-FindPass-20s Send':'60s后再次发送',
+    'Index-FindPass-s Send':'s后再次发送',
+    'Index-FindPass-inputPhone':'请设置您的手机号码',
+    'Index-FindPass-inputPhone-null':'手机号码不能为空！',
+    'Index-FindPass-inputVerificationCode':'验证码',
+    'Index-FindPass-passNotNull':'你的密码不能为空！',
+    'Index-FindPass-setYoutpass':'请设置您的密码',
+    'Index-FindPass-setPassagain':'请再次输入密码验证',
+    'Index-FindPass-submit':'提 交',
+};
