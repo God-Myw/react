@@ -112,9 +112,9 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
     shipType: '',
     dwt: '',
     dwtMax: '',
-    shipAge: 1,
     listType: 1,
-    shipAgeMax: 999,
+    shipAge: '',
+    shipAgeMax: '',
     currentPage: 1,
     pageSize: 10,
     phoneNumber: '',
@@ -181,8 +181,10 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
     param.set('dwtMax', localStorage.dwtMax || this.state.dwtMax);
     param.set('orderNumber', localStorage.orderNumber || this.state.orderNumber);
     param.set('listType', this.state.listType ? this.state.listType : '');
-    param.set('shipAge', localStorage.shipAge || this.state.shipAge);
-    param.set('shipAgeMax', localStorage.shipAgeMax || this.state.shipAgeMax);
+    if (this.state.shipAge != '' && this.state.shipAgeMax != '') {
+      param.set('shipAge', localStorage.shipAge || this.state.shipAge);
+      param.set('shipAgeMax', localStorage.shipAgeMax || this.state.shipAgeMax);
+    }
     param.set('phoneNumber', this.state.phoneNumber ? this.state.phoneNumber : '');
     getRequest('/business/shipSelling/getShipSellingListByWeb', param, (response: any) => {
       if (response.status === 200) {
@@ -197,7 +199,7 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
             entity.usersIndex = index + 1 || '';
             entity.orderNumber = userDataCheck.orderNumber || '';
             entity.shipName = userDataCheck.shipName || '';
-            entity.identityType = userDataCheck.identityType == '3' ? '卖方' : '卖方(中介)';
+            entity.identityType = userDataCheck.identityType == '3' ? '买方' : '买方(中介)';
             entity.buildParticularYear = userDataCheck.buildParticularYear || '';
             entity.shipType = userDataCheck.shipType || '';
             entity.shipAge = userDataCheck.orderNumber || '';
@@ -352,7 +354,7 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
         listing: false,
         aucTion: false,
         buyBoat: true,
-        listType: 1,
+        listType: 2,
         currentPage: 1,
         columns: [
           {
@@ -450,6 +452,7 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
       listing: false,
       aucTion: true,
       buyBoat: false,
+      listType: 2,
       currentPage: 1,
       columns: [
         {
@@ -535,7 +538,10 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
           ),
         },
       ],
-    });
+    },
+      () => {
+        this.initData();
+      });
   };
   //搜索
   findAll = () => {
@@ -561,7 +567,7 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
   };
   //买船查看详情
   handleAucTion = (id: any) => {
-    let url = '/ShipTrading/aucTionView/';
+    let url = '/ShipTrading/AucTionView/';
     this.props.history.push(url + id);
   };
   // 船舶挂牌上下架
@@ -614,8 +620,13 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
                 </Select>
                 <Select
                   allowClear={true}
-                  onSelect={(v: any) => {
-                    this.setState({ dwt: JSON.parse(v)[0], dwtMax: JSON.parse(v)[1] });
+                  onChange={(v: any) => {
+                    if (v == undefined) {
+                      v = ['', '']
+                    } else {
+                      v = JSON.parse(v)
+                    }
+                    this.setState({ dwt: v[0], dwtMax: v[1] });
                   }}
                   placeholder="请选择吨位搜索"
                   style={{ width: '24%' }}
@@ -635,13 +646,17 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
                   allowClear={true}
                   style={{ width: '24%' }}
                   placeholder="请选择船龄"
-                  onSelect={(v, d: any) => {
+                  onChange={(v, d: any) => {
                     let age;
-                    d.props.children == '不限'
-                      ? (age = ['', ''])
-                      : d.props.children == '25年以上'
-                        ? (age = ['25', '99999'])
-                        : (age = d.props.children.slice(0, d.props.children.length - 1).split('-'));
+                    if (d == undefined) {
+                      age = ['', '']
+                    } else {
+                      d.props.children == '不限'
+                        ? (age = ['不限', '不限'])
+                        : d.props.children == '25年以上'
+                          ? (age = ['25', '99999'])
+                          : (age = d.props.children.slice(0, d.props.children.length - 1).split('-'));
+                    }
                     this.setState({ shipAge: age[0], shipAgeMax: age[1] });
                   }}
                 >

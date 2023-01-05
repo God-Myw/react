@@ -316,8 +316,6 @@ class IndexMenu extends React.Component<
     // 初期化固定是PC账号密码登录
 
     getRequest('/sys/menu', params, (response: any) => {
-      console.log(response);
-
       if (response.status === 200) {
         this.setState({
           webService: response.data.webService,

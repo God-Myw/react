@@ -37,6 +37,7 @@ class ShipView extends React.Component<ShipCertificationFormProps> {
     insuId: '',
     createDate: '',
     shipCertificate: [],
+    shipPhotos: [],
     current: 0,
   };
   componentDidMount() {
@@ -74,18 +75,19 @@ class ShipView extends React.Component<ShipCertificationFormProps> {
               response.data.data.shipSellerDto.auth == '1'
                 ? '体验套餐'
                 : response.data.data.shipSellerDto.auth == '2'
-                ? 'VIP套餐'
-                : '尊享套餐',
+                  ? 'VIP套餐'
+                  : '尊享套餐',
             aliWxPay:
               response.data.data.shipSellerDto.aliWxPay == '1'
                 ? '支付宝'
                 : response.data.data.shipSellerDto.aliWxPay == '1'
-                ? '微信'
-                : '0元购',
+                  ? '微信'
+                  : '0元购',
             payMoney: response.data.data.shipSellerDto.payMoney || '',
             insuId: response.data.data.shipSellerDto.insuId || '',
             createDate: response.data.data.shipSellerDto.createDate || '',
-            shipCertificate: response.data.data.shipSellerDto.shipCertificate || '',
+            shipCertificate: response.data.data.shipCertificate || '',
+            shipPhotos: response.data.data.shipPhotos || '',
           });
         }
       }
@@ -242,21 +244,23 @@ class ShipView extends React.Component<ShipCertificationFormProps> {
                 </Form>
               </Card>
               <div className={commonCss.title}>
-                <span className={commonCss.text}>{'挂牌套餐'}</span>
+                <span className={commonCss.text}>{'船舶证书和图片'}</span>
               </div>
               <Card bordered={false}>
                 <Form labelAlign="left">
                   <Row gutter={24}>
                     <Col span={12}>
                       <Form.Item {...{ formlayout }} label="船舶证书">
-                        <img
-                          src={this.state.shipCertificate[0] || '#'}
-                          alt=""
-                          width="200px"
-                          height="120px"
-                        />
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
+                        {
+                          this.state.shipCertificate.map((item: any) => {
+                            return (<img
+                              src={'http://58.33.34.10:10443/images/spart/' + item['fileName'] || '#'}
+                              alt=""
+                              width="200px"
+                              height="120px"
+                            />)
+                          })
+                        }
                       </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -285,19 +289,24 @@ class ShipView extends React.Component<ShipCertificationFormProps> {
                   <Row gutter={24}>
                     <Col span={24}>
                       <Form.Item {...formlayout3} label="船舶照片">
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
-                        <img src="#" alt="" width="200px" height="120px" />
+                        {
+                          this.state.shipPhotos.map((item: any) => {
+                            return (<img
+                              src={'http://58.33.34.10:10443/images/spart/' + item['fileName'] || '#'}
+                              alt=""
+                              width="200px"
+                              height="120px"
+                              style={{ marginRight: '10px' }}
+                            />)
+                          })
+                        }
                       </Form.Item>
                     </Col>
                   </Row>
                 </Form>
               </Card>
               <div className={commonCss.title}>
-                <span className={commonCss.text}>{'船舶证书和图片'}</span>
+                <span className={commonCss.text}>{'挂牌套餐'}</span>
               </div>
               <Card bordered={false}>
                 <Form labelAlign="left">

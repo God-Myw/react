@@ -41,8 +41,6 @@ class AucTionView extends React.Component<ShipCertificationFormProps> {
       (response: any) => {
         if (response.status === 200 && response.data) {
           if (!isNil(response)) {
-            console.log(response);
-
             this.setState({
               // shipAge: response.data.data.shipSellerDto.shipAge || '',
               identity: response.data.identity == 1 ? '买方' : '买方中介',
