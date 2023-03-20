@@ -196,8 +196,6 @@ class AdvanceorderListForm extends React.Component<RouteComponentProps> {
 
   //查看
   Toexamine = (record) => {
-    console.log(record)
-
     this.props.history.push('/specialCar/view/' + record.guid);
   };
 

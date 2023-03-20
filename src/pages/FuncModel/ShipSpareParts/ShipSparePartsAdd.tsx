@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { RouteComponentProps } from 'dva/router';
 import { Col, Form, Input, Icon, Row, Button, Card, Table, Select, Upload, Modal } from 'antd';
 import { DeleteFilled } from '@ant-design/icons';
@@ -10,14 +10,15 @@ import { Editor, Toolbar } from '../../../components/WangEditor';
 import { fileType } from '@/pages/Common/Components/FileTypeCons';
 import LabelTitleComponent from '../../Common/Components/LabelTitleComponent';
 import ButtonOptionComponent from '../../Common/Components/ButtonOptionComponent';
-import { postRequest } from '@/utils/request';
+import { postRequest, getRequest } from '@/utils/request';
 import { isNil, forEach } from 'lodash';
-import { PicList, StoreList } from './ShipSparePartsForminterface'
+import { PicList, StoreList } from './ShipSparePartsForminterface';
 import { FormattedMessage } from 'umi-plugin-locale';
 import { HandleBeforeUpload } from '@/utils/validator';
-import 'cropperjs/dist/cropper.css'
+import 'cropperjs/dist/cropper.css';
 // import Cropper from './Cropper'
 import Cropper from 'cropperjs';
+import { response } from 'express';
 const uploadButton = (
   <div>
     <Icon type="plus" />
@@ -63,7 +64,7 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
         </span>
       ),
     },
-  ]
+  ];
   state = {
     addName: '新增商品',
     storeCount: 0,
@@ -76,37 +77,46 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
     storeColumns: this.storeColumns,
     storeData: [],
     checkflag: true,
-    brand: "",
-    createDate: "",
+    brand: '',
+    createDate: '',
     creater: '',
     deleteFlag: '',
-    details: "",
-    model: "",
+    details: '',
+    model: '',
     money: null,
-    number: "",
+    number: '',
     cropperVisible: false,
-    partExplain: "",
+    partExplain: '',
     picList: [],
     storePicList: [],
-    placeOf: "",
+    TwoLevelAll: [],
+    oneLeave: '',
+    twoLeave: '',
+    placeOf: '',
     partExplainIndex: 0,
     ellist: [
-      <Input key={0} onBlur={(e) => {
-        let partExplain = this.state.partExplain + e.target.value + '/'
-        this.setState({
-          partExplain: partExplain
-        })
-      }} style={{ width: '50%' }}></Input>
+      <Input
+        key={0}
+        onBlur={e => {
+          let partExplain = this.state.partExplain + e.target.value + '/';
+          this.setState({
+            partExplain: partExplain,
+          });
+        }}
+        style={{ width: '50%' }}
+      ></Input>,
     ],
-    spartParts: [{
-      index: 0,
-      partPicList: [],
-      model: '',
-      spartMoney: '',
-      quantity: ''
-    }],
-    tradeName: "",
-    updateDate: "",
+    spartParts: [
+      {
+        index: 0,
+        partPicList: [],
+        model: '',
+        spartMoney: '',
+        quantity: '',
+      },
+    ],
+    tradeName: '',
+    updateDate: '',
     updater: '',
     views: 0,
   };
@@ -115,79 +125,105 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
   componentDidMount() {
     this.setState({
       editor: null,
-      storeData: [{
-        index: 0,
-        imgUrl:
-          <Upload
-            action={"/api/sys/file/upLoadFuJian/" + fileType.ship_spare}
-            listType="picture-card"
-            accept=".gif,.bmp,.png,.img,.jpeg,.jpg,.tiff"
-            beforeUpload={HandleBeforeUpload.bind(this)}
-            headers={{ token: String(localStorage.getItem('token')) }}
-            onChange={(info: any) => {
-              const dataSource = [];
-              if (!isNil(info.file.status) && (info.file.status === 'done')) {
-                let fileLists: PicList = {};
-                fileLists.fileName = info.file.response.data.fileName;
-                fileLists.type = fileType.ship_spare;
-                fileLists.fileLog = 49;
-                dataSource.push(fileLists);
-              } else if (!isNil(info.file.status) && info.file.status === 'uploading') {
-                this.setState({ checkflag: true });
-              }
-              const spartParts: any[] = this.state.spartParts.filter((item: any) => item.index !== 0)
-              const spartParts2: any[] = this.state.spartParts.filter((item: any) => item.index == 0)
-              const spartPartsInit: { index?: any, partPicList?: any, model: any, spartMoney: any, quantity: any } = {
-                index: 0,
-                partPicList: dataSource,
-                model: spartParts2[0].model,
-                spartMoney: spartParts2[0].spartMoney,
-                quantity: spartParts2[0].quantity
-              }
-              spartParts.push(spartPartsInit)
-              this.setState({
-                spartParts: spartParts,
-              });
-
-            }}
-          >
-            {
-              isNil(this.state) ||
-                isNil(this.state.spartParts) ||
-                this.state.spartParts[0]['partPicList']['length'] < 1
+      storeData: [
+        {
+          index: 0,
+          imgUrl: (
+            <Upload
+              action={'/api/sys/file/upLoadFuJian/' + fileType.ship_spare}
+              listType="picture-card"
+              accept=".gif,.bmp,.png,.img,.jpeg,.jpg,.tiff"
+              beforeUpload={HandleBeforeUpload.bind(this)}
+              headers={{ token: String(localStorage.getItem('token')) }}
+              onChange={(info: any) => {
+                const dataSource = [];
+                if (!isNil(info.file.status) && info.file.status === 'done') {
+                  let fileLists: PicList = {};
+                  fileLists.fileName = info.file.response.data.fileName;
+                  fileLists.type = fileType.ship_spare;
+                  fileLists.fileLog = 49;
+                  dataSource.push(fileLists);
+                } else if (!isNil(info.file.status) && info.file.status === 'uploading') {
+                  this.setState({ checkflag: true });
+                }
+                const spartParts: any[] = this.state.spartParts.filter(
+                  (item: any) => item.index !== 0,
+                );
+                const spartParts2: any[] = this.state.spartParts.filter(
+                  (item: any) => item.index == 0,
+                );
+                const spartPartsInit: {
+                  index?: any;
+                  partPicList?: any;
+                  model: any;
+                  spartMoney: any;
+                  quantity: any;
+                } = {
+                  index: 0,
+                  partPicList: dataSource,
+                  model: spartParts2[0].model,
+                  spartMoney: spartParts2[0].spartMoney,
+                  quantity: spartParts2[0].quantity,
+                };
+                spartParts.push(spartPartsInit);
+                this.setState({
+                  spartParts: spartParts,
+                });
+              }}
+            >
+              {isNil(this.state) ||
+              isNil(this.state.spartParts) ||
+              this.state.spartParts[0]['partPicList']['length'] < 1
                 ? uploadButton
-                : null
-            }
-          </Upload>,
-        type:
-          <Form.Item required>
-            <Input onChange={e => {
-              this.storeListChange(0, 'model', e.target.value)
-            }} />
-          </Form.Item>,
-        price:
-          <Form.Item required>
-            <Input onChange={e => {
-              this.storeListChange(0, 'spartMoney', e.target.value)
-            }} />
-          </Form.Item>,
-        count:
-          <Form.Item required>
-            <Input onChange={e => {
-              this.storeListChange(0, 'quantity', e.target.value)
-            }} />
-          </Form.Item>,
-      }]
+                : null}
+            </Upload>
+          ),
+          type: (
+            <Form.Item required>
+              <Input
+                onChange={e => {
+                  this.storeListChange(0, 'model', e.target.value);
+                }}
+              />
+            </Form.Item>
+          ),
+          price: (
+            <Form.Item required>
+              <Input
+                onChange={e => {
+                  this.storeListChange(0, 'spartMoney', e.target.value);
+                }}
+              />
+            </Form.Item>
+          ),
+          count: (
+            <Form.Item required>
+              <Input
+                onChange={e => {
+                  this.storeListChange(0, 'quantity', e.target.value);
+                }}
+              />
+            </Form.Item>
+          ),
+        },
+      ],
     });
     this.initData();
-  };
+  }
 
   //模拟数据
-  initData() { };
-  onRemoveCheck = () => {
+  initData() {
+    // 所有二级分类
+    let params: Map<string, any> = new Map();
+    getRequest('/business/spartLevel/getSpartTwoLevelAll', params, (response: any) => {
+      let TwoLevelAll = response.data.map((item: any) => {
+        return <Select.Option value={item.twoLevelName}>{item.twoLevelName}</Select.Option>;
+      });
+      this.setState({ TwoLevelAll: TwoLevelAll });
+    });
   }
-  handlePreview = () => {
-  }
+  onRemoveCheck = () => {};
+  handlePreview = () => {};
   //图片上传
   handleChangeCheck = (info: any) => {
     // let p = new Cropper(image, {
@@ -205,11 +241,11 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
     if (info.file.status === 'done' || info.file.status === 'removed') {
       const fileLists: PicList = {};
       forEach(info.fileList, (item: any) => {
-        fileLists.fileName = item.response.data.fileName
+        fileLists.fileName = item.response.data.fileName;
         fileLists.type = fileType.ship_spare;
         fileLists.fileLog = 48;
         dataSource.push(fileLists);
-      })
+      });
     } else if (!isNil(info.file.status) && info.file.status === 'uploading') {
       this.setState({ checkflag: true });
     }
@@ -226,16 +262,16 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
     if (count === info.fileList.length) {
       this.setState({ checkflag: false });
     }
-  }
+  };
   // 商品型号/价格
   storeListChange = (index: any, type: string, value: any) => {
-    const spartParts = [...this.state.spartParts]
-    spartParts[index][type] = value
-    this.setState({ spartParts: spartParts })
-  }
+    const spartParts = [...this.state.spartParts];
+    spartParts[index][type] = value;
+    this.setState({ spartParts: spartParts });
+  };
   storeListSub = (index: number) => {
-    let storeList = [...this.state.storeData]
-    let spartPartsList = [...this.state.spartParts]
+    let storeList = [...this.state.storeData];
+    let spartPartsList = [...this.state.spartParts];
     storeList = storeList.filter((item: any) => item.index !== index);
     spartPartsList = spartPartsList.filter((item: any, i: any) => i !== index);
     this.setState({
@@ -243,26 +279,34 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
       editor: null,
       storeData: storeList,
       spartParts: spartPartsList,
-      storeCount: this.state.storeCount - 1
+      storeCount: this.state.storeCount - 1,
     });
-  }
+  };
   storeListAdd = () => {
-    let index = this.state.storeCount + 1
-    const spartPartsList: {}[] = [...this.state.spartParts]
-    const spartParts: { index?: number, partPicList: any, model?: any, spartMoney?: any, quantity?: any }[] = [{
-      index: index,
-      partPicList: [],
-      model: '',
-      spartMoney: '',
-      quantity: ''
-    }]
-    spartPartsList.push(...spartParts)
-    const storeList: {}[] = [...this.state.storeData]
+    let index = this.state.storeCount + 1;
+    const spartPartsList: {}[] = [...this.state.spartParts];
+    const spartParts: {
+      index?: number;
+      partPicList: any;
+      model?: any;
+      spartMoney?: any;
+      quantity?: any;
+    }[] = [
+      {
+        index: index,
+        partPicList: [],
+        model: '',
+        spartMoney: '',
+        quantity: '',
+      },
+    ];
+    spartPartsList.push(...spartParts);
+    const storeList: {}[] = [...this.state.storeData];
     const obj = {
       index: index,
-      imgUrl:
+      imgUrl: (
         <Upload
-          action={"/api/sys/file/upLoadFuJian/" + fileType.ship_spare}
+          action={'/api/sys/file/upLoadFuJian/' + fileType.ship_spare}
           listType="picture-card"
           accept=".gif,.bmp,.png,.img,.jpeg,.jpg,.tiff"
           beforeUpload={HandleBeforeUpload.bind(this)}
@@ -278,71 +322,89 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
             } else if (!isNil(info.file.status) && info.file.status === 'uploading') {
               this.setState({ checkflag: true });
             }
-            const spartParts: any[] = this.state.spartParts.filter((item: any) => item.index !== index)
-            const spartParts2: any[] = this.state.spartParts.filter((item: any) => item.index == index)
-            const spartPartsInit: { index?: any, partPicList?: any, model: any, spartMoney: any, quantity: any } = {
+            const spartParts: any[] = this.state.spartParts.filter(
+              (item: any) => item.index !== index,
+            );
+            const spartParts2: any[] = this.state.spartParts.filter(
+              (item: any) => item.index == index,
+            );
+            const spartPartsInit: {
+              index?: any;
+              partPicList?: any;
+              model: any;
+              spartMoney: any;
+              quantity: any;
+            } = {
               index: index,
               partPicList: dataSource,
               model: spartParts2[0].model,
               spartMoney: spartParts2[0].spartMoney,
-              quantity: spartParts2[0].quantity
-            }
-            spartParts.push(spartPartsInit)
+              quantity: spartParts2[0].quantity,
+            };
+            spartParts.push(spartPartsInit);
             this.setState({
               spartParts: spartParts,
             });
           }}
         >
-          {
-            isNil(this.state) ||
-              isNil(this.state.spartParts[index]) ||
-              this.state.spartParts[index]['partPicList']['length'] < 1
-              ? uploadButton
-              : null
-          }
-        </Upload>,
-      type:
+          {isNil(this.state) ||
+          isNil(this.state.spartParts[index]) ||
+          this.state.spartParts[index]['partPicList']['length'] < 1
+            ? uploadButton
+            : null}
+        </Upload>
+      ),
+      type: (
         <Form.Item required>
-          <Input onChange={e => {
-            this.storeListChange(obj.index, 'model', e.target.value)
-          }} />
-        </Form.Item>,
-      price:
+          <Input
+            onChange={e => {
+              this.storeListChange(obj.index, 'model', e.target.value);
+            }}
+          />
+        </Form.Item>
+      ),
+      price: (
         <Form.Item required>
-          <Input onChange={e => {
-            this.storeListChange(obj.index, 'spartMoney', e.target.value)
-          }} />
-        </Form.Item>,
-      count:
+          <Input
+            onChange={e => {
+              this.storeListChange(obj.index, 'spartMoney', e.target.value);
+            }}
+          />
+        </Form.Item>
+      ),
+      count: (
         <Form.Item required>
-          <Input onChange={e => {
-            this.storeListChange(obj.index, 'quantity', e.target.value)
-          }} />
-        </Form.Item>,
-    }
-    storeList.push(obj)
+          <Input
+            onChange={e => {
+              this.storeListChange(obj.index, 'quantity', e.target.value);
+            }}
+          />
+        </Form.Item>
+      ),
+    };
+    storeList.push(obj);
     this.setState({ storeData: storeList, storeCount: index, spartParts: spartPartsList });
-  }
+  };
   handleCropper = (e: any) => {
-    this.setState({ cropperVisible: false })
-  }
+    this.setState({ cropperVisible: false });
+  };
   // 提交表单
   getShipSparePartsAdd = () => {
-    let partExplain = [...new Set(this.state.partExplain)]
+    let partExplain = [...new Set(this.state.partExplain)];
     let requestData = {
       tradeName: this.state.tradeName || '',
-      brand: this.state.brand || "",
-      placeOf: this.state.placeOf || "",
-      picList: this.state.picList || "",
-      spartParts: this.state.spartParts || "",
-      partExplain: partExplain || "",
-      details: this.state.details || ""
-    }
-    postRequest('/business/spart/saveSpart', JSON.stringify(requestData), (response) => {
+      brand: this.state.brand || '',
+      placeOf: this.state.placeOf || '',
+      picList: this.state.picList || '',
+      spartParts: this.state.spartParts || '',
+      partExplain: partExplain || '',
+      details: this.state.details || '',
+    };
+    postRequest('/business/spart/saveSpart', JSON.stringify(requestData), response => {
       if (!isNil(response) && response.code === '0000' && response.status === 200) {
-        this.props.history.push('/spartPart')
+        this.props.history.push('/spartPart');
       }
-    })
+    });
   };
   render() {
     const formlayout = {
@@ -366,40 +428,36 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
         this.setState({ curContent: editor.children, details: editor.getHtml() });
       },
       MENU_CONF: {
-        'uploadImage': {
+        uploadImage: {
           server: '/api/sys/file/upLoadFuJian/' + fileType.ship_spare,
           // timeout: 5 * 1000, // 5s
           fieldName: 'file',
           // meta: { token: String(localStorage.getItem('token')) },
           headers: {
             // accept: '.gif,.bmp,.png,.img,.jpeg,.jpg,.tiff',
-            token: String(localStorage.getItem('token'))
+            token: String(localStorage.getItem('token')),
           },
           // maxFileSize: 10 * 1024 * 1024, // 10M
           // base64LimitSize: 5 * 1024, // insert base64 format, if file's size less than 5kb
           customInsert(res: any, insertFn: Function) {
             // res 即服务端的返回结果
-            let url = `http://58.33.34.10:10443/images/spart/${res.data.fileName}`
-            let alt = ''
-            let href = ''
+            let url = `http://58.33.34.10:10443/images/spart/${res.data.fileName}`;
+            let alt = '';
+            let href = '';
             // 从 res 中找到 url alt href ，然后插入图片
-            insertFn(url, alt, href)
+            insertFn(url, alt, href);
           },
           onBeforeUpload(file: any) {
             // HandleBeforeUpload.bind(this)
-            return file
+            return file;
           },
-          onProgress(progress: any) {
-          },
-          onSuccess(file: any, res: any) {
-          },
-        }
-      }
+          onProgress(progress: any) {},
+          onSuccess(file: any, res: any) {},
+        },
+      },
     };
     // 继续补充其他配置~
-    const defaultContent = [
-      { type: 'paragraph', children: [{ text: '' }] },
-    ];
+    const defaultContent = [{ type: 'paragraph', children: [{ text: '' }] }];
     return (
       <div className="clearfix">
         <div className={commonCss.container}>
@@ -418,7 +476,8 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                       // disabled
                       allowClear={true}
                       onSelect={(v: any) => {
-                        this.setState({ cropperVisible: true })
+                        this.setState({ oneLeave: v.target.value });
+                        // this.setState({ cropperVisible: true });
                       }}
                       placeholder="请选择一级分类"
                       style={{ width: '73%' }}
@@ -434,15 +493,19 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                 <Col span={12}>
                   <Form.Item required {...formlayout} label="二级分类">
                     <Select
-                      disabled
+                      // disabled
                       allowClear={true}
                       onSelect={(v: any) => {
+                        this.setState({ twoLeave: v.target.value });
                       }}
                       placeholder="请选择备件类型"
                       style={{ width: '73%' }}
                     >
-                      <Select.Option value={'主机'}>主机</Select.Option>
-                      <Select.Option value={'辅机'}>辅机</Select.Option>
+                      {forEach(this.state.TwoLevelAll, (element: any) => {
+                        {
+                          element;
+                        }
+                      })}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -450,14 +513,24 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
               <Row gutter={24}>
                 <Col span={12}>
                   <Form.Item required {...formlayout} label="商品名称">
-                    <Input style={{ width: '73%' }} onChange={(e) => { this.setState({ tradeName: e.target.value }) }}></Input>
+                    <Input
+                      style={{ width: '73%' }}
+                      onChange={e => {
+                        this.setState({ tradeName: e.target.value });
+                      }}
+                    ></Input>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={24}>
                 <Col span={12}>
                   <Form.Item required {...formlayout} label="商品品牌">
-                    <Input style={{ width: '73%' }} onChange={(e) => { this.setState({ brand: e.target.value }) }}></Input>
+                    <Input
+                      style={{ width: '73%' }}
+                      onChange={e => {
+                        this.setState({ brand: e.target.value });
+                      }}
+                    ></Input>
                   </Form.Item>
                 </Col>
               </Row>
@@ -468,7 +541,7 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                     <Input style={{ width: '73%' }} value={'请选择上传图片'} disabled></Input>
                   </Form.Item>
                   <Upload
-                    action={"/api/sys/file/upLoadFuJian/" + fileType.ship_spare}
+                    action={'/api/sys/file/upLoadFuJian/' + fileType.ship_spare}
                     listType="picture-card"
                     accept=".gif,.bmp,.png,.img,.jpeg,.jpg,.tiff"
                     beforeUpload={HandleBeforeUpload.bind(this)}
@@ -478,9 +551,7 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                     // onPreview={this.handlePreview}
                     onChange={this.handleChangeCheck}
                   >
-                    {isNil(this.state) ||
-                      isNil(this.state.picList) ||
-                      this.state.picList.length < 5
+                    {isNil(this.state) || isNil(this.state.picList) || this.state.picList.length < 5
                       ? uploadButton
                       : null}
                   </Upload>
@@ -488,16 +559,20 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
               </Row>
               <Row gutter={24}>
                 <Col span={15}>
-                  <Form.Item style={{ textAlign: 'center' }} required {...formlayout} label="商品型号/价格">
+                  <Form.Item
+                    style={{ textAlign: 'center' }}
+                    required
+                    {...formlayout}
+                    label="商品型号/价格"
+                  >
                     <Table
-                      className='ShipSparePartsAddTable'
-                      rowKey={(record: any) => (record.index || '')}
+                      className="ShipSparePartsAddTable"
+                      rowKey={(record: any) => record.index || ''}
                       // size=''
                       columns={this.state.storeColumns}
                       dataSource={this.state.storeData}
                       pagination={false}
-                    >
-                    </Table>
+                    ></Table>
                     <Button
                       icon="plus"
                       style={{
@@ -516,11 +591,11 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
               <Row gutter={24}>
                 <Col span={12}>
                   <Form.Item {...formlayout} label="说明">
-                    {
-                      forEach(this.state.ellist, (v, index) => {
-                        { v }
-                      })
-                    }
+                    {forEach(this.state.ellist, (v, index) => {
+                      {
+                        v;
+                      }
+                    })}
                     <Button
                       icon="plus"
                       style={{
@@ -531,15 +606,21 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                         fontSize: '20px',
                       }}
                       onClick={() => {
-                        let index = this.state.partExplainIndex + 1
-                        let arr = [...this.state.ellist]
-                        arr.push(<Input key={index} onBlur={(e) => {
-                          let partExplain = this.state.partExplain + e.target.value + '/'
-                          this.setState({
-                            partExplain: partExplain
-                          })
-                        }} style={{ width: '50%' }} />)
-                        this.setState({ ellist: arr, partExplainIndex: index })
+                        let index = this.state.partExplainIndex + 1;
+                        let arr = [...this.state.ellist];
+                        arr.push(
+                          <Input
+                            key={index}
+                            onBlur={e => {
+                              let partExplain = this.state.partExplain + e.target.value + '/';
+                              this.setState({
+                                partExplain: partExplain,
+                              });
+                            }}
+                            style={{ width: '50%' }}
+                          />,
+                        );
+                        this.setState({ ellist: arr, partExplainIndex: index });
                       }}
                     ></Button>
                   </Form.Item>
@@ -576,7 +657,7 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                       type="Save"
                       text={'取消'}
                       event={() => {
-                        this.props.history.push('/spartPart')
+                        this.props.history.push('/spartPart');
                       }}
                     />
                   </Col>
@@ -592,17 +673,23 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
               </Card>
             </Form>
           </Card>
-          <Modal title="请裁剪图片"
+          <Modal
+            title="请裁剪图片"
             visible={this.state.cropperVisible}
             onOk={this.handleCropper}
-            onCancel={() => { this.setState({ cropperVisible: false }) }}>
+            onCancel={() => {
+              this.setState({ cropperVisible: false });
+            }}
+          >
             {/* <Cropper /> */}
           </Modal>
-        </div >
-      </div >
-    )
+        </div>
+      </div>
+    );
   }
 }
-const MPCertificationList_Form = Form.create({ name: 'MPCertificationList_Form' })(ShipSparePartsAdd);
+const MPCertificationList_Form = Form.create({ name: 'MPCertificationList_Form' })(
+  ShipSparePartsAdd,
+);
 
 export default MPCertificationList_Form;

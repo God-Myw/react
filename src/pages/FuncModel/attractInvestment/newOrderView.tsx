@@ -87,7 +87,6 @@ class MyOrderView extends React.Component<OrderViewFormProps, OrderProps> {
     let params: Map<string, any> = new Map();
     let guid = this.props.match.params['guid'];
     getRequest('/business/specialVehicle/getSpecialVehicleUserById?guid=' + guid +'&', params, (response: any) => {
-      console.log(response)
       if (response.status === 200) {
         //把查询到的信息data赋值给页面
         if (!isNil(response.data)) {
