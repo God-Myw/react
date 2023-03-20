@@ -95,7 +95,7 @@ class MyOrderView extends React.Component<OrderViewFormProps, OrderProps> {
             // orders:response.data.order,//基础信息
             title:response.data.specialVehicleUserDto.title,//标题
             isShipCar:response.data.specialVehicleUserDto.isShipCar==1?'车':'船',//1车2船
-            modelType:response.data.specialVehicleUserDto.modelType==1?'租凭':'售卖',//1租凭2售卖
+            modelType:response.data.specialVehicleUserDto.modelType==1?'租赁':'售卖',//1租赁2售卖
             introduction:response.data.specialVehicleUserDto.introduction,//产品简介
             specialpic:response.data.specialpic,//图片
             spcialName:response.data.spcialName,//发布类型

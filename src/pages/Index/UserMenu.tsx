@@ -30,6 +30,7 @@ interface fathers {
   menuUrl: string;
   childList: fathers[];
 }
+
 interface MenuListState {
   webService: fathers[];
   webSearch: fathers[];
@@ -66,7 +67,7 @@ class IndexMenu extends React.Component<
     'ws://58.33.34.10:10443/ws/' + String(localStorage.getItem('token')).replace(/-/g, ''); //  线上使用websocket
 
   componentDidMount() {
-    localStorage.currentPage = 1
+    localStorage.currentPage = 1;
     let param: Map<string, any> = new Map();
     param.set('type', '1');
     getRequest(`/sys/user/${localStorage.getItem('userId')}`, param, response => {
@@ -160,13 +161,13 @@ class IndexMenu extends React.Component<
     }
 
     // 连接成功建立的回调方法
-    websocket.onopen = function (e: any) {
+    websocket.onopen = function(e: any) {
       console.log('连接成功');
       tryTime = 0;
       heartCheck.reset().start(); // 成功建立连接后，重置心跳检测
     };
     // 连接发生错误，连接错误时会继续尝试发起连接（尝试5次）
-    websocket.onerror = function (e: any) {
+    websocket.onerror = function(e: any) {
       websocket.close();
       console.log('websocket 断开: ' + e.code + ' ' + e.reason + ' ' + e.wasClean);
       console.log(e);
@@ -176,7 +177,7 @@ class IndexMenu extends React.Component<
       }
     };
     // 接受到消息的回调方法
-    websocket.onmessage = function (e: any) {
+    websocket.onmessage = function(e: any) {
       heartCheck.reset().start(); // 如果获取到消息，说明连接是正常的，重置心跳检测
       var message = e.data;
       if (message && message != 'true') {
@@ -244,12 +245,12 @@ class IndexMenu extends React.Component<
     };
 
     // 接受到服务端关闭连接时的回调方法
-    websocket.onclose = function (e: any) {
+    websocket.onclose = function(e: any) {
       console.log('onclose断开连接' + e.code + ' ' + e.reason + ' ' + e.wasClean);
       // 重试10次，每次之间间隔10秒
       if (tryTime < 10) {
         console.log('重连....');
-        setTimeout(function () {
+        setTimeout(function() {
           tryTime++;
           self.newWebSocket();
         }, 3 * 1000);
@@ -258,7 +259,7 @@ class IndexMenu extends React.Component<
       }
     };
     // 监听窗口事件，当窗口关闭时，主动断开websocket连接，防止连接没断开就关闭窗口，server端报错
-    window.onbeforeunload = function () {
+    window.onbeforeunload = function() {
       websocket.close();
     };
 
@@ -266,13 +267,13 @@ class IndexMenu extends React.Component<
     var heartCheck = {
       timeout: 540000,
       serverTimeoutObj: null,
-      reset: function () {
+      reset: function() {
         // clearTimeout(this.timeout);
         clearTimeout(this.serverTimeoutObj);
         return this;
       },
-      start: function () {
-        this.serverTimeoutObj = setTimeout(function () {
+      start: function() {
+        this.serverTimeoutObj = setTimeout(function() {
           console.log(websocket.readyState);
           if (websocket.readyState == 1) {
             console.log('连接状态，发送消息保持连接');
@@ -381,7 +382,7 @@ class IndexMenu extends React.Component<
     // 认证文言
     let spanStyle = {};
     // 点击事件
-    let clickEvent = () => { };
+    let clickEvent = () => {};
     // 在线业务
     let eachMenu: JSX.Element[] = [];
     forEach(webService, (menu, key) => {
@@ -426,13 +427,13 @@ class IndexMenu extends React.Component<
       );
       clickEvent = authStatus
         ? () => {
-          menu.menuUrl == '/qrCodeUpload'
-            ? this.props.history.push('/ShipTrading')
-            : this.props.history.push(menu.menuUrl);
-        }
+            menu.menuUrl == '/qrCodeUpload'
+              ? this.props.history.push('/ShipTrading')
+              : this.props.history.push(menu.menuUrl);
+          }
         : () => {
-          ('javascript:void(0)');
-        };
+            ('javascript:void(0)');
+          };
       eachMenu.push(
         <div key={key} className="noNeedAuth" onClick={clickEvent} style={divStyle}>
           <img className="img" src={menu.menuIcon} />
@@ -491,11 +492,11 @@ class IndexMenu extends React.Component<
 
       clickEvent = authStatus
         ? () => {
-          this.props.history.push(menu.menuUrl);
-        }
+            this.props.history.push(menu.menuUrl);
+          }
         : () => {
-          ('javascript:void(0)');
-        };
+            ('javascript:void(0)');
+          };
       eachMenu.push(
         <div key={key} className="noNeedAuth" onClick={clickEvent} style={divStyle}>
           <img className="img" src={menu.menuIcon} />

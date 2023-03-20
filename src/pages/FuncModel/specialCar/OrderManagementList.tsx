@@ -143,7 +143,7 @@ class AdvanceorderListForm extends React.Component<RouteComponentProps> {
             entity.name = order.name;
             entity.isShipCar = order.isShipCar == 1 ? '车' : '船';
             entity.specialName = order.specialName;
-            entity.modelType = order.modelType == 1 ? '租凭' : '售卖';
+            entity.modelType = order.modelType == 1 ? '租赁' : '售卖';
             entity.auditStatus = order.auditStatus == 1 ? '待审核' : order.auditStatus == 2 ? '审核通过' : order.auditStatus == 3 ? '过期' : order.auditStatus == 0 ? '驳回' : '';
             entity.releaseStatus = order.releaseStatus == 1 ? '未通过' : order.releaseStatus == 2 ? '待审核' : order.releaseStatus == 3 ? '未上架' : order.releaseStatus == 4 ? '已过期' : order.releaseStatus == 5 ? '已上架' : order.releaseStatus == 0 ? '强制下架' : '';
             //序号和订单编号是否需要

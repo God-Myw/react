@@ -139,14 +139,12 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
       shipAgeMax: localStorage.shipAgeMax || '',
     });
     localStorage.currentPage
-      ? (localStorage.removeItem('currentPage'))
+      ? localStorage.removeItem('currentPage')
       : (localStorage.currentPage = this.state.currentPage);
     localStorage.shipType
       ? localStorage.removeItem('shipType')
       : (localStorage.shipType = this.state.shipType);
-    localStorage.dwt
-      ? localStorage.removeItem('dwt')
-      : (localStorage.dwt = this.state.dwt);
+    localStorage.dwt ? localStorage.removeItem('dwt') : (localStorage.dwt = this.state.dwt);
     localStorage.dwtMax
       ? localStorage.removeItem('dwtMax')
       : (localStorage.dwtMax = this.state.dwtMax);
@@ -210,8 +208,8 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
               userDataCheck.auth == '1'
                 ? '体验套餐'
                 : userDataCheck.auth == '2'
-                  ? 'VIP套餐'
-                  : '尊享套餐';
+                ? 'VIP套餐'
+                : '尊享套餐';
             entity.payMoney = userDataCheck.payMoney || '';
             entity.price = !isNaN(userDataCheck.price * 1)
               ? userDataCheck.price + '万' + priceTypeObj[userDataCheck.priceType]
@@ -312,6 +310,12 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
             align: 'center',
             width: '3%',
           },
+          // {
+          //   title: '状态2',
+          //   dataIndex: 'shelf',
+          //   align: 'center',
+          //   width: '3%',
+          // },
           {
             title: '联系方式',
             dataIndex: 'phoneNumber',
@@ -448,100 +452,102 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
   };
   //船舶竞拍
   aucTion = () => {
-    this.setState({
-      listing: false,
-      aucTion: true,
-      buyBoat: false,
-      listType: 2,
-      currentPage: 1,
-      columns: [
-        {
-          title: '序号',
-          dataIndex: 'usersIndex',
-          align: 'center',
-          width: '2%',
-        },
-        {
-          title: '编号',
-          dataIndex: 'orderNumber',
-          align: 'center',
-          width: '7%',
-        },
-        {
-          title: '交易身份',
-          dataIndex: 'identityType',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '船舶名称',
-          dataIndex: 'shipName',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '船舶类型',
-          dataIndex: 'shipType',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '船级社',
-          dataIndex: 'classificationSociety',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '挂牌套餐类型 ',
-          dataIndex: 'auth',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '套餐金额',
-          dataIndex: 'payMoney',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '状态',
-          dataIndex: 'shelf',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '联系方式',
-          dataIndex: 'phoneNumber',
-          align: 'center',
-          width: '5%',
-        },
-        {
-          title: '操作',
-          dataIndex: 'guid',
-          align: 'center',
-          width: '8%',
-          render: (guid: any, data: any) => (
-            <span style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-              <QueryButton
-                text="查看"
-                type="View"
-                event={() => this.handleAucTion(guid)}
-                disabled={false}
-              />
-              <QueryButton
-                text={data.shelf == '上架' ? '暂停' : '恢复'}
-                type={data.shelf == '上架' ? 'NoStop' : 'Stop'}
-                event={() => this.shelfChange(guid, data.shelf)}
-                disabled={false}
-              />
-            </span>
-          ),
-        },
-      ],
-    },
+    this.setState(
+      {
+        listing: false,
+        aucTion: true,
+        buyBoat: false,
+        listType: 2,
+        currentPage: 1,
+        columns: [
+          {
+            title: '序号',
+            dataIndex: 'usersIndex',
+            align: 'center',
+            width: '2%',
+          },
+          {
+            title: '编号',
+            dataIndex: 'orderNumber',
+            align: 'center',
+            width: '7%',
+          },
+          {
+            title: '交易身份',
+            dataIndex: 'identityType',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '船舶名称',
+            dataIndex: 'shipName',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '船舶类型',
+            dataIndex: 'shipType',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '船级社',
+            dataIndex: 'classificationSociety',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '挂牌套餐类型 ',
+            dataIndex: 'auth',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '套餐金额',
+            dataIndex: 'payMoney',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '状态',
+            dataIndex: 'shelf',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '联系方式',
+            dataIndex: 'phoneNumber',
+            align: 'center',
+            width: '5%',
+          },
+          {
+            title: '操作',
+            dataIndex: 'guid',
+            align: 'center',
+            width: '8%',
+            render: (guid: any, data: any) => (
+              <span style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+                <QueryButton
+                  text="查看"
+                  type="View"
+                  event={() => this.handleAucTion(guid)}
+                  disabled={false}
+                />
+                <QueryButton
+                  text={data.shelf == '上架' ? '暂停' : '恢复'}
+                  type={data.shelf == '上架' ? 'NoStop' : 'Stop'}
+                  event={() => this.shelfChange(guid, data.shelf)}
+                  disabled={false}
+                />
+              </span>
+            ),
+          },
+        ],
+      },
       () => {
         this.initData();
-      });
+      },
+    );
   };
   //搜索
   findAll = () => {
@@ -585,7 +591,7 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
           }
         });
       },
-      onCancel() { },
+      onCancel() {},
     });
   };
   // selectChange = (value: any, data: any) => {
@@ -610,8 +616,14 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
                   allowClear={true}
                   style={{ width: '24%' }}
                   placeholder="请选择船舶类型搜索"
-                  onSelect={(v, d: any) => {
-                    this.setState({ shipType: d.props.children });
+                  onChange={(v, d: any) => {
+                    let type = '';
+                    if (d == undefined) {
+                      type = '';
+                    } else {
+                      type = d.props.children;
+                    }
+                    this.setState({ shipType: type });
                   }}
                 >
                   {getDictDetail('ship_type').map((item: any) => (
@@ -622,9 +634,9 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
                   allowClear={true}
                   onChange={(v: any) => {
                     if (v == undefined) {
-                      v = ['', '']
+                      v = ['', ''];
                     } else {
-                      v = JSON.parse(v)
+                      v = JSON.parse(v);
                     }
                     this.setState({ dwt: v[0], dwtMax: v[1] });
                   }}
@@ -649,13 +661,13 @@ class ShipList extends React.Component<RouteComponentProps & { location: { query
                   onChange={(v, d: any) => {
                     let age;
                     if (d == undefined) {
-                      age = ['', '']
+                      age = ['', ''];
                     } else {
                       d.props.children == '不限'
                         ? (age = ['不限', '不限'])
                         : d.props.children == '25年以上'
-                          ? (age = ['25', '99999'])
-                          : (age = d.props.children.slice(0, d.props.children.length - 1).split('-'));
+                        ? (age = ['25', '99999'])
+                        : (age = d.props.children.slice(0, d.props.children.length - 1).split('-'));
                     }
                     this.setState({ shipAge: age[0], shipAgeMax: age[1] });
                   }}
