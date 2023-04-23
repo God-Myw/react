@@ -551,7 +551,7 @@ class ShipSparePartsAdd extends React.Component<RouteComponentProps> {
                     // onPreview={this.handlePreview}
                     onChange={this.handleChangeCheck}
                   >
-                    {isNil(this.state) || isNil(this.state.picList) || this.state.picList.length < 5
+                    {isNil(this.state) || isNil(this.state.picList) || this.state.picList.length < 10
                       ? uploadButton
                       : null}
                   </Upload>

@@ -150,7 +150,7 @@ export default {
       // pathRewrite: { '^/api': '' },
 
       // //测试本地接口(孟凡达)
-      target: 'http://192.168.1.111:8000',
+      target: 'http://192.168.1.112:8000',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
 

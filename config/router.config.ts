@@ -1267,6 +1267,41 @@ export const router = [
               },
             ],
           },
+          //线下客服===船员培训
+          {
+            path: '/CrewTraining',
+            userType: 2,
+            routes: [
+              {
+                path: '/CrewTraining',
+                redirect: '/CrewTraining/list',
+              },
+              {
+                path: '/CrewTraining/list',
+                component: './FuncModel/CrewTraining/CrewTrainingList',
+              },
+              {
+                path: '/CrewTraining/add',
+                component: './FuncModel/CrewTraining/CrewTrainingAdd',
+              },
+              {
+                path: '/CrewTraining/view/:guid',
+                component: './FuncModel/CrewTraining/CrewTrainingView',
+              },
+              {
+                path: '/CrewTraining/Train/list',
+                component: './FuncModel/CrewTraining/TrainList',
+              },
+              {
+                path: '/CrewTraining/Train/Edit',
+                component: './FuncModel/CrewTraining/TrainEdit',
+              },
+              {
+                path: '/CrewTraining/Train/view/:guid',
+                component: './FuncModel/CrewTraining/TrainView',
+              },
+            ],
+          },
 
           //===================================线上客服
           //线上客服---保险公司一览（保险管理）

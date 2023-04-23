@@ -820,6 +820,43 @@ export const editBread = (pathname: string, routes: Route[]) => {
       });
     }
   }
+  //线下客服船员培训面包屑
+  if (pathname.startsWith('/CrewTraining')) {
+    routes.push({
+      path: '/CrewTraining',
+      breadcrumbName: '船员培训报名列表',
+    });
+    if (pathname.startsWith('/CrewTraining/view')) {
+      routes.push({
+        path: '',
+        breadcrumbName: '船员培训信息详情',
+      });
+    }
+    if (pathname.startsWith('/CrewTraining/add')) {
+      routes.push({
+        path: '',
+        breadcrumbName: '发布船员培训信息',
+      });
+    }
+    if (pathname.startsWith('/CrewTraining/Train')) {
+      routes.push({
+        path: '/Train/list',
+        breadcrumbName: '船员培训列表',
+      });
+      if (pathname.startsWith('/CrewTraining/Train/Edit')) {
+        routes.push({
+          path: '',
+          breadcrumbName: '编辑培训信息',
+        });
+      }
+      if (pathname.startsWith('/CrewTraining/Train/view')) {
+        routes.push({
+          path: '',
+          breadcrumbName: '船员培训信息详情',
+        });
+      }
+    }
+  }
   //线下客服用户查询面包屑
   if (pathname.startsWith('/downusersearch')) {
     //用户查询面包屑

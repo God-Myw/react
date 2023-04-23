@@ -463,7 +463,6 @@ class ChatMsg extends React.Component<
       });
     }else{
       getRequest('/sys/chat/xxlist', param, (response: any) => {
-        console.log(response)
         if (response.status === 200) {
           let target_accountid = this.state.target_accountid;
           let default_target_accountid = '';
@@ -524,7 +523,6 @@ class ChatMsg extends React.Component<
             hasSysMsg: response.data.isSysMsg,
             target_accountid: default_target_accountid
           })
-          console.log(this.state.data)
         }
       });
     }
