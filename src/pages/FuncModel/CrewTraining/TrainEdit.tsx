@@ -55,7 +55,7 @@ class TrainEdit extends React.Component<TrainEditProps> {
         };
         putRequest('/business/Cultivate/updateCultivate', JSON.stringify(params), (res: any) => {
           if (res.code == '0000') {
-            this.props.history.push('/CrewTraining/Train/list');
+            this.props.history.push('/userCultivate/Train/list');
           }
         });
       }
@@ -312,7 +312,7 @@ class TrainEdit extends React.Component<TrainEditProps> {
                   type="Save"
                   text={'关闭'}
                   event={() => {
-                    this.props.history.push('/CrewTraining/Train/list');
+                    this.props.history.push('/userCultivate/Train/list');
                   }}
                 />
               </Col>

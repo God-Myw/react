@@ -1269,35 +1269,35 @@ export const router = [
           },
           //线下客服===船员培训
           {
-            path: '/CrewTraining',
+            path: '/userCultivate',
             userType: 2,
             routes: [
               {
-                path: '/CrewTraining',
-                redirect: '/CrewTraining/list',
+                path: '/userCultivate',
+                redirect: '/userCultivate/list',
               },
               {
-                path: '/CrewTraining/list',
+                path: '/userCultivate/list',
                 component: './FuncModel/CrewTraining/CrewTrainingList',
               },
               {
-                path: '/CrewTraining/add',
+                path: '/userCultivate/add',
                 component: './FuncModel/CrewTraining/CrewTrainingAdd',
               },
               {
-                path: '/CrewTraining/view/:guid',
+                path: '/userCultivate/view/:guid',
                 component: './FuncModel/CrewTraining/CrewTrainingView',
               },
               {
-                path: '/CrewTraining/Train/list',
+                path: '/userCultivate/Train/list',
                 component: './FuncModel/CrewTraining/TrainList',
               },
               {
-                path: '/CrewTraining/Train/Edit',
+                path: '/userCultivate/Train/Edit',
                 component: './FuncModel/CrewTraining/TrainEdit',
               },
               {
-                path: '/CrewTraining/Train/view/:guid',
+                path: '/userCultivate/Train/view/:guid',
                 component: './FuncModel/CrewTraining/TrainView',
               },
             ],

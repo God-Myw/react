@@ -87,7 +87,6 @@ class PalletAdd extends React.Component<PalletFormProps, PalletProps> {
           let ceshi1 = response.data.shipBookingVo.lables?response.data.shipBookingVo.lables.indexOf('1:'):'';
           let ceshi2 = response.data.shipBookingVo.lables?response.data.shipBookingVo.lables.indexOf('#2:'):'';
           let ceshi3 = response.data.shipBookingVo.lables?response.data.shipBookingVo.lables.indexOf('#3:'):'';
-          console.log(ceshi1,ceshi2,ceshi3)
           this.setState({
             userType :  OP ? OP == 0?'管理员' : OP == 1 ? '线上客服' : OP == 2 ? ' 线下客服' : OP == 3 ? '审核客服' : OP == 4 ? '货主' : OP == 5 ? '船东' : OP == 6 ? '服务商':'' : '',
             name: response.data.user?response.data.user.firstName+response.data.user.lastName:'',//姓名

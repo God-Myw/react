@@ -625,6 +625,12 @@ export const editBread = (pathname: string, routes: Route[]) => {
         breadcrumbName: '订舱详情',
       });
     }
+    if (pathname.startsWith('/linerBooking/edit')) {
+      routes.push({
+        path: '',
+        breadcrumbName: '编辑班轮订舱列表',
+      });
+    }
     if (pathname.startsWith('/linerBooking/editBia/')) {
       routes.push({
         path: '',
@@ -765,6 +771,12 @@ export const editBread = (pathname: string, routes: Route[]) => {
         breadcrumbName: '集装箱详情',
       });
     }
+    if (pathname.startsWith('/containerOrder/edit')) {
+      routes.push({
+        path: '',
+        breadcrumbName: '集装箱编辑列表',
+      });
+    }
     if (pathname.startsWith('/containerOrder/editBia/')) {
       routes.push({
         path: '',
@@ -821,35 +833,35 @@ export const editBread = (pathname: string, routes: Route[]) => {
     }
   }
   //线下客服船员培训面包屑
-  if (pathname.startsWith('/CrewTraining')) {
+  if (pathname.startsWith('/userCultivate')) {
     routes.push({
-      path: '/CrewTraining',
+      path: '/userCultivate',
       breadcrumbName: '船员培训报名列表',
     });
-    if (pathname.startsWith('/CrewTraining/view')) {
+    if (pathname.startsWith('/userCultivate/view')) {
       routes.push({
         path: '',
         breadcrumbName: '船员培训信息详情',
       });
     }
-    if (pathname.startsWith('/CrewTraining/add')) {
+    if (pathname.startsWith('/userCultivate/add')) {
       routes.push({
         path: '',
         breadcrumbName: '发布船员培训信息',
       });
     }
-    if (pathname.startsWith('/CrewTraining/Train')) {
+    if (pathname.startsWith('/userCultivate/Train')) {
       routes.push({
         path: '/Train/list',
         breadcrumbName: '船员培训列表',
       });
-      if (pathname.startsWith('/CrewTraining/Train/Edit')) {
+      if (pathname.startsWith('/userCultivate/Train/Edit')) {
         routes.push({
           path: '',
           breadcrumbName: '编辑培训信息',
         });
       }
-      if (pathname.startsWith('/CrewTraining/Train/view')) {
+      if (pathname.startsWith('/userCultivate/Train/view')) {
         routes.push({
           path: '',
           breadcrumbName: '船员培训信息详情',

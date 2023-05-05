@@ -15,7 +15,7 @@ import moment from 'moment';
 const InputGroup = Input.Group;
 const { confirm } = Modal;
 
-class PalletListForm extends React.Component<RouteComponentProps> {
+class PalletListEditForm extends React.Component<RouteComponentProps> {
   private columns: ColumnProps<PalletModel>[] = [
     {
       title: '序号',
@@ -29,20 +29,30 @@ class PalletListForm extends React.Component<RouteComponentProps> {
       dataIndex: 'namess',
       align: 'center',
       width: '20%',
-    }, {
+    },
+    {
       title: formatMessage({ id: 'pallet-palletList.operate' }),
       dataIndex: 'guid',
       align: 'center',
       width: '14%',
       render: (guid: any) => (
         <span>
-          <QueryButton text='查看' type="View" event={() => this.handleView(guid)} disabled={false} />
+          <QueryButton
+            text="查看"
+            type="View"
+            event={() => this.handleView(guid)}
+            disabled={false}
+          />
           &nbsp;
-          <QueryButton text='编辑' type="View" event={() => this.handleView_b(guid)} disabled={false} />
+          <QueryButton
+            text="编辑"
+            type="View"
+            event={() => this.handleView_b(guid)}
+            disabled={false}
+          />
         </span>
-
-      )
-    }
+      ),
+    },
   ];
   state = {
     //列
@@ -66,7 +76,7 @@ class PalletListForm extends React.Component<RouteComponentProps> {
     this.setState({
       //列
       columns: this.columns,
-    })
+    });
     this.initData();
   }
 
@@ -83,8 +93,9 @@ class PalletListForm extends React.Component<RouteComponentProps> {
     params.set('pageSize', 10);
     params.set('currentPage', this.state.currentPage);
     params.set('date', moment());
-    params.set('closingTime',this.state.closingTime?this.state.closingTime:'');
-    params.set('userName',this.state.userName?this.state.userName:'');
+    params.set('closingTime', this.state.closingTime ? this.state.closingTime : '');
+    params.set('userName', this.state.userName ? this.state.userName : '');
+    params.set('phoneNumber', this.state.phoneNumber ? this.state.phoneNumber : '');
     return params;
   }
 
@@ -93,24 +104,28 @@ class PalletListForm extends React.Component<RouteComponentProps> {
     const data_Source: PalletModel[] = [];
     let param = this.setParams();
     getRequest('/business/shipBooking/getShipBookingList', param, (response: any) => {
-      console.log(response)
       if (response.status === 200) {
         if (!isNil(response.data)) {
           forEach(response.data.records, (pallet, index) => {
             const entity: PalletModel = {};
-
             pallet.goodsIndex = index + (this.state.currentPage - 1) * this.state.pagesize + 1;
             entity.reserveIndex = pallet.goodsIndex;
-
             // entity.startPortCn = pallet.startPortCn;
             // entity.startPortEn = pallet.startPortEn;
 
             // entity.endPortCn = pallet.endPortCn;
             // entity.endPortEn = pallet.endPortEn;
 
-            entity.namess = pallet.startPortCn+' '+pallet.startPortEn+'---'+pallet.endPortCn+' '+pallet.endPortEn;
+            entity.namess =
+              pallet.startPortCn +
+              ' ' +
+              pallet.startPortEn +
+              '---' +
+              pallet.endPortCn +
+              ' ' +
+              pallet.endPortEn;
 
-            entity.state =pallet.accountId;
+            entity.state = pallet.accountId;
 
             entity.guid = pallet;
 
@@ -125,53 +140,50 @@ class PalletListForm extends React.Component<RouteComponentProps> {
     });
   }
 
+  // //检索事件
 
-// //检索事件
+  //   findAll = () => {
+  //     this.setState({
+  //       currentPage: 1,
+  //     }, () => {
+  //       this.getPalletList_ss();
+  //     });
+  //   };
 
-//   findAll = () => {
-//     this.setState({
-//       currentPage: 1,
-//     }, () => {
-//       this.getPalletList_ss();
-//     });
-//   };
+  //   getPalletList_ss() {
+  //     const data_Source: ShipModel[] = [];
+  //     let param: Map<string, string> = new Map();
 
-//   getPalletList_ss() {
-//     const data_Source: ShipModel[] = [];
-//     let param: Map<string, string> = new Map();
+  //     param.set('startDate',this.state.startDate?this.state.startDate:'');
+  //     param.set('user',this.state.user?this.state.user:'');
 
-//     param.set('startDate',this.state.startDate?this.state.startDate:'');
-//     param.set('user',this.state.user?this.state.user:'');
+  //     getRequest('/business/requirements/selectRequirementForWebByconditions', param, (response: any) => {
+  //       console.log(response)
+  //       if (response.status === 200) {
+  //         if (!isNil(response.data)) {
+  //           forEach(response.data, (pallet, index) => {
+  //             const entity: PalletModel = {};
+  //             pallet.goodsIndex = index + (this.state.currentPage - 1) * this.state.pagesize + 1;
+  //             entity.key = index + 1;
+  //             entity.namess = 'NINGBO 宁波港 ——HOUSTON 休斯敦';
+  //             entity.startDate = pallet.startDateWeek + pallet.startDate;
+  //             entity.endDate =pallet.endDateWeek + pallet.endDate;
+  //             entity.haiyunMoneyOneOld =pallet.haiyunMoneyOneOld;
+  //             entity.haiyunMoneyTwoOld =pallet.haiyunMoneyTwoOld;
+  //             entity.haiyunMoneyThreeOld =pallet.haiyunMoneyThreeOld;
+  //             entity.state ='DYLXX202001';
+  //             entity.guid = pallet;
 
-//     getRequest('/business/requirements/selectRequirementForWebByconditions', param, (response: any) => {
-//       console.log(response)
-//       if (response.status === 200) {
-//         if (!isNil(response.data)) {
-//           forEach(response.data, (pallet, index) => {
-//             const entity: PalletModel = {};
-//             pallet.goodsIndex = index + (this.state.currentPage - 1) * this.state.pagesize + 1;
-//             entity.key = index + 1;
-//             entity.namess = 'NINGBO 宁波港 ——HOUSTON 休斯敦';
-//             entity.startDate = pallet.startDateWeek + pallet.startDate;
-//             entity.endDate =pallet.endDateWeek + pallet.endDate;
-//             entity.haiyunMoneyOneOld =pallet.haiyunMoneyOneOld;
-//             entity.haiyunMoneyTwoOld =pallet.haiyunMoneyTwoOld;
-//             entity.haiyunMoneyThreeOld =pallet.haiyunMoneyThreeOld;
-//             entity.state ='DYLXX202001';
-//             entity.guid = pallet;
-
-//             data_Source.push(entity);
-//           });
-//         }
-//         this.setState({
-//           dataSource: data_Source,
-//           total: response.data.total,
-//         });
-//       }
-//     });
-//   }
-
-
+  //             data_Source.push(entity);
+  //           });
+  //         }
+  //         this.setState({
+  //           dataSource: data_Source,
+  //           total: response.data.total,
+  //         });
+  //       }
+  //     });
+  //   }
 
   //修改当前页码
   changePage = (page: any) => {
@@ -185,31 +197,25 @@ class PalletListForm extends React.Component<RouteComponentProps> {
     );
   };
 
-
   //订舱追加
   handAddPallet = () => {
     this.props.history.push('/linerBooking/add');
   };
 
-
-
   //货盘查看
   handleView = (guid: any) => {
-    console.log(guid.flag)
     this.props.history.push('/linerBooking/editBia/' + guid.guid);
   };
 
   handleView_b = (guid: any) => {
-    console.log(guid.flag)
     this.props.history.push('/linerBooking/addBia/' + guid.guid);
   };
-
 
   render() {
     return (
       <div className={commonCss.container}>
         <LabelTitleComponent
-          text='编辑班轮订舱列表'
+          text="编辑班轮订舱列表"
           event={() => {
             this.props.history.push('/linerBooking');
           }}
@@ -218,17 +224,24 @@ class PalletListForm extends React.Component<RouteComponentProps> {
           <Row gutter={24}>
             <Col span={24}>
               <InputGroup compact>
-              <Input
-                  style={{ width: '33%' }}
+                <Input
+                  style={{ width: '23%' }}
                   placeholder="请输入截关时间检索，格式为：xxxx-xx-xx (例：2021-05-12)"
                   onChange={e => this.setState({ startDate: e.target.value })}
                   // onKeyUp={this.keyUp}
                 />
 
                 <Input
-                  style={{ width: '33%' }}
+                  style={{ width: '23%' }}
                   placeholder="请输入用户名检索"
                   onChange={e => this.setState({ user: e.target.value })}
+                  // onKeyUp={this.keyUp}
+                />
+
+                <Input
+                  style={{ width: '23%' }}
+                  placeholder="请输入联系电话检索"
+                  onChange={e => this.setState({ phoneNumber: e.target.value })}
                   // onKeyUp={this.keyUp}
                 />
 
@@ -238,12 +251,30 @@ class PalletListForm extends React.Component<RouteComponentProps> {
                   event={this.search.bind(this)}
                   disabled={false}
                 /> */}
-                <QueryButton key={3} type="Query"  text="搜索" event={() => this.initData()} disabled={false} />
+                <QueryButton
+                  key={3}
+                  type="Query"
+                  text="搜索"
+                  event={() => this.initData()}
+                  disabled={false}
+                />
                 {/* <QueryButton key={4} type="Query"  text="编辑班轮" event={this.handAddPallet} disabled={false} /> */}
-                <span style={{width:'4%'}}></span>
-                <QueryButton key={3} type="Query"  text="新增班轮" event={() => this.handAddPallet()} disabled={false} />
-                <span style={{width:'4%'}}></span>
-                <QueryButton key={3} type="Query"  text="编辑班轮" event={() => this.handAddPallet()} disabled={false} />
+                <span style={{ width: '4%' }}></span>
+                {/* <QueryButton
+                  key={4}
+                  type="BatchDelete"
+                  text="批量导入"
+                  event={() => this.handAddPallet()}
+                  disabled={false}
+                />
+                <span style={{ width: '4%' }}></span>
+                <QueryButton
+                  key={5}
+                  type="BatchDelete"
+                  text="新增班轮"
+                  event={() => this.handAddPallet()}
+                  disabled={false}
+                /> */}
                 {/* <QueryButton key={3} type="Query" text="编辑班轮"  event={() => this.handAddPallet()} style={{ width: '10%' }} disabled={false}/> */}
               </InputGroup>
             </Col>
@@ -273,7 +304,8 @@ class PalletListForm extends React.Component<RouteComponentProps> {
                     ? Math.floor(this.state.total / this.state.pagesize)
                     : Math.floor(this.state.total / this.state.pagesize) + 1}{' '}
                   <FormattedMessage id="pallet-palletList.pages" />
-                  {this.state.pagesize}<FormattedMessage id="pallet-palletList.records" />
+                  {this.state.pagesize}
+                  <FormattedMessage id="pallet-palletList.records" />
                 </div>
               ),
             }}
@@ -284,4 +316,4 @@ class PalletListForm extends React.Component<RouteComponentProps> {
   }
 }
 
-export default PalletListForm;
+export default PalletListEditForm;

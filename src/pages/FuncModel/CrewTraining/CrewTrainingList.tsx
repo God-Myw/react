@@ -91,7 +91,7 @@ class CrewTrainingList extends React.Component<RouteComponentProps> {
             text="操作"
             type="View"
             event={() => {
-              this.props.history.push('/CrewTraining/view/' + data.guid);
+              this.props.history.push('/userCultivate/view/' + data.guid);
             }}
             disabled={false}
           />
@@ -188,7 +188,7 @@ class CrewTrainingList extends React.Component<RouteComponentProps> {
                   type="BatchDelete"
                   text="培训列表"
                   event={() => {
-                    this.props.history.push('/CrewTraining/Train/list');
+                    this.props.history.push('/userCultivate/Train/list');
                   }}
                   disabled={false}
                 />
@@ -197,7 +197,7 @@ class CrewTrainingList extends React.Component<RouteComponentProps> {
                   type="BatchDelete"
                   text="+发布培训"
                   event={() => {
-                    this.props.history.push('/CrewTraining/add');
+                    this.props.history.push('/userCultivate/add');
                   }}
                   disabled={false}
                 />

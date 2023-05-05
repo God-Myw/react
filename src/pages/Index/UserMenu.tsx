@@ -318,7 +318,6 @@ class IndexMenu extends React.Component<
 
     getRequest('/sys/menu', params, (response: any) => {
       if (response.status === 200) {
-        response.data.webService.push({ menuName: '船员培训', menuUrl: '/CrewTraining' });
         this.setState({
           webService: response.data.webService,
           webSearch: response.data.webSearch,

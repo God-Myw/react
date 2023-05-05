@@ -14,6 +14,6 @@ export interface PalletModel {
   goodsStatus?: string;
 
   guid?: any;
-  
-  key?:any;
+
+  key?: any;
 }

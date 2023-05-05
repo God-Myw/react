@@ -52,7 +52,7 @@ class CrewTrainingAdd extends React.Component<CrewTrainingProps> {
         };
         postRequest('/business/Cultivate/saveCultivate', JSON.stringify(params), (res: any) => {
           if ((res.code = '0000')) {
-            this.props.history.push('/CrewTraining/list');
+            this.props.history.push('/userCultivate/list');
           }
         });
       }
@@ -255,7 +255,7 @@ class CrewTrainingAdd extends React.Component<CrewTrainingProps> {
                   type="Save"
                   text={'关闭'}
                   event={() => {
-                    this.props.history.push('/CrewTraining/Train/list');
+                    this.props.history.push('/userCultivate/Train/list');
                   }}
                 />
               </Col>

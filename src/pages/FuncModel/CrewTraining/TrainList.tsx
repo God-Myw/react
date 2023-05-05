@@ -69,7 +69,7 @@ class TrainList extends React.Component<RouteComponentProps> {
             type="View"
             event={() => {
               this.props.history.push({
-                pathname: '/CrewTraining/Train/Edit',
+                pathname: '/userCultivate/Train/Edit',
                 state: { type: false, guid: data.guid },
               });
             }}
@@ -80,7 +80,7 @@ class TrainList extends React.Component<RouteComponentProps> {
             type="Edit"
             event={() => {
               this.props.history.push({
-                pathname: '/CrewTraining/Train/Edit',
+                pathname: '/userCultivate/Train/Edit',
                 state: { type: true, guid: data.guid },
               });
             }}
@@ -175,7 +175,7 @@ class TrainList extends React.Component<RouteComponentProps> {
                   type="BatchDelete"
                   text="+发布培训"
                   event={() => {
-                    this.props.history.push('/CrewTraining/add');
+                    this.props.history.push('/userCultivate/add');
                   }}
                   disabled={false}
                 />
