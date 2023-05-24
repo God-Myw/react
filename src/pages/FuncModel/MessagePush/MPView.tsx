@@ -51,7 +51,7 @@ const cityData = {
   '港口服务',
    '船厂',
    '航修',
-  '船舶备件',
+  '船舶供应',
   '气象导航',
   '检验',
    '燃油供应',
@@ -273,7 +273,7 @@ showModal = () => {
                             this.state.secondCity=='集港' ?3 :this.state.secondCity=='包装' ?4 :this.state.secondCity=='装箱' ?5 :
                               this.state.secondCity=='仓库' ?6 :this.state.secondCity=='卡车运输' ?7 :this.state.secondCity=='航空代理' ?8 :
                                 this.state.secondCity=='铁路运输' ?9 :this.state.secondCity=='港口服务' ?10 :this.state.secondCity=='船厂' ?11 :
-                                  this.state.secondCity=='航修' ?12 :this.state.secondCity=='船舶备件' ?13 :this.state.secondCity=='气象导航' ?14 :
+                                  this.state.secondCity=='航修' ?12 :this.state.secondCity=='船舶供应' ?13 :this.state.secondCity=='气象导航' ?14 :
                                     this.state.secondCity=='检验' ?15 :this.state.secondCity=='燃油供应' ?16 :this.state.secondCity=='船舶供应' ?17 :
                                       this.state.secondCity=='船舶代理' ?18 :this.state.secondCity=='船员派遣' ?19 : this.state.secondCity=='货运代理' ?20 :
                                         this.state.secondCity=='卡车买卖' ?23 :this.state.secondCity=='货主已经发布货盘' ?101:

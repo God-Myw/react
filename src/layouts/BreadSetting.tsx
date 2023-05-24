@@ -813,11 +813,11 @@ export const editBread = (pathname: string, routes: Route[]) => {
       });
     }
   }
-  //线下客服船舶备件面包屑
+  //线下客服船舶供应面包屑
   if (pathname.startsWith('/spartPart')) {
     routes.push({
       path: '/spartPart/list',
-      breadcrumbName: '船舶备件',
+      breadcrumbName: '船舶供应',
     });
     if (pathname.startsWith('/spartPart/view')) {
       routes.push({
@@ -829,6 +829,12 @@ export const editBread = (pathname: string, routes: Route[]) => {
       routes.push({
         path: '',
         breadcrumbName: '新增备件',
+      });
+    }
+    if (pathname.startsWith('/spartPart/orderList')) {
+      routes.push({
+        path: '',
+        breadcrumbName: '订单列表',
       });
     }
   }

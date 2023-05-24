@@ -160,7 +160,7 @@ class SpartUserList extends React.Component<RouteComponentProps> {
     return (
       <div className={commonCss.container}>
         <LabelTitleComponent
-          text="船舶备件"
+          text="船舶供应"
           event={() => {
             this.props.history.push('/index_menu');
           }}

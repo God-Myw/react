@@ -23,5 +23,5 @@ export const fileType = {
     ship_settle: 'order', // 结算	审核客服-结算详情
     ship_deposit_slip: 'user', // 保证金流水单	船东-货主-支付保证金
     ship_photo: 'ship',//船舶照片  船东-新增船舶
-    ship_spare: 'spart',//商品轮播图  新增船舶备件
+    ship_spare: 'spart',//商品轮播图  新增船舶供应
 }

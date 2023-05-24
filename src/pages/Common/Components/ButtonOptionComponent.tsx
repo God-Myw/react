@@ -272,6 +272,12 @@ class ButtonOptionComponent extends React.Component<
           {text}
         </Button>
       );
+    } else if (type == 'Send') {
+      returnResult = (
+        <Button size="small" style={{ background: '#70B603',padding: '0px 28px', color: '#FFFFFF' }} onClick={event}>
+          {text}
+        </Button>
+      );
     } else if (type == 'CloseButton') {
       returnResult = (
         <Button style={{ background: '#2EAEF7', color: '#FFFFFF' }} onClick={event}>

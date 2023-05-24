@@ -1240,7 +1240,7 @@ export const router = [
               },
             ],
           },
-          //线下客服===船舶备件
+          //线下客服===船舶供应
           {
             path: '/spartPart',
             userType: 2,
@@ -1264,6 +1264,10 @@ export const router = [
               {
                 path: '/spartPart/userList',
                 component: './FuncModel/ShipSpareParts/SpartUserList',
+              },
+              {
+                path: '/spartPart/orderList',
+                component: './FuncModel/ShipSpareParts/ShipSparePartsOrderList',
               },
             ],
           },

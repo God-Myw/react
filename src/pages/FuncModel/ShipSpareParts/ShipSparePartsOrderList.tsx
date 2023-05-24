@@ -4,7 +4,7 @@ import { Table, Input, Form, Row, Col, Select, Modal } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import commonCss from '../../Common/css/CommonCss.less';
 import LabelTitleComponent from '../../Common/Components/LabelTitleComponent';
-import { ShipSparePartsModel } from './ShipSparePartsModel';
+import { ShipSparePartsModel, SpartUserListModel } from './ShipSparePartsModel';
 import QueryButton from '../../Common/Components/ButtonOptionComponent';
 import { getRequest } from '@/utils/request';
 import { isNil, forEach } from 'lodash';
@@ -16,8 +16,13 @@ const { confirm } = Modal;
 class ShipSparePartsList extends React.Component<RouteComponentProps> {
   private columns: ColumnProps<ShipSparePartsModel>[] = [
     {
-      title: '商品编号',
+      title: '订单号',
       dataIndex: 'number',
+      align: 'center',
+    },
+    {
+      title: '商品分类',
+      dataIndex: '',
       align: 'center',
     },
     {
@@ -35,33 +40,39 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
       ),
     },
     {
-      title: '商品名称',
+      title: '商品',
       dataIndex: 'tradeName',
       align: 'center',
+      width: '20%',
     },
     {
-      title: '所属商品类目',
-      dataIndex: 'fileType',
-      align: 'center',
-    },
-    {
-      title: '品牌',
-      dataIndex: 'brand',
-      align: 'center',
-    },
-    {
-      title: '价格',
+      title: '单价',
       dataIndex: 'spartMoney',
       align: 'center',
     },
     {
-      title: '库存',
-      dataIndex: 'quantitySum',
+      title: '数量',
+      dataIndex: 'quantity',
       align: 'center',
     },
     {
-      title: '状态',
-      dataIndex: 'shelf',
+      title: '下单时间',
+      dataIndex: 'createDate',
+      align: 'center',
+    },
+    {
+      title: '订单状态',
+      dataIndex: 'type',
+      align: 'center',
+    },
+    {
+      title: '联系人',
+      dataIndex: '',
+      align: 'center',
+    },
+    {
+      title: '联系方式',
+      dataIndex: 'phoneNumber',
       align: 'center',
     },
     {
@@ -71,17 +82,11 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
       width: '18%',
       render: (v: any, data: any) => (
         <span style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-          <QueryButton text="编辑" type="Edit" event={() => this.handleEdit(v)} disabled={false} />
+          <QueryButton text="查看" type="View" event={() => this.handleEdit(v)} disabled={false} />
           <QueryButton
-            text={data.shelf == '已上架' ? '下架' : '上架'}
-            type={data.shelf == '已上架' ? 'Stop' : 'Shelf'}
+            text={data.type == 1 ? '取消订单' : '发货'}
+            type={data.type == 1 ? 'Delete' : 'Send'}
             event={() => this.handleChange(v, data)}
-            disabled={false}
-          />
-          <QueryButton
-            text="删除"
-            type="Delete"
-            event={() => this.handleDelete(v)}
             disabled={false}
           />
         </span>
@@ -91,6 +96,7 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
   state = {
     columns: this.columns,
     dataSource: data_Source,
+    spartLevelList: [],
     total: 0,
     pageSize: 10,
     currentPage: 1,
@@ -104,29 +110,38 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
 
   //模拟数据
   initData() {
+    let params: Map<string, string> = new Map();
+    params.set('level', '');
+    getRequest('/business/spartLevel/getSpartLevel', params, (response: any) => {
+      if (response.status === 200) {
+        if (!isNil(response)) {
+          this.setState({
+            spartLevelList: response.data,
+          });
+        }
+      }
+    });
     this.getShipSparePartsList();
   }
   getShipSparePartsList() {
-    const data_Source: ShipSparePartsModel[] = [];
+    const data_Source: SpartUserListModel[] = [];
     let params: Map<string, string> = new Map();
     params.set('currentPage', this.state.currentPage.toString());
     params.set('pageSize', this.state.pageSize.toString());
-    getRequest('/business/spart/getSpartListByWeb', params, (response: any) => {
+    getRequest('/business/spartUser/getSpartUserList', params, (response: any) => {
       if (response.status === 200) {
         if (!isNil(response)) {
           forEach(response.data.records, (userDataCheck, index) => {
-            const entity: ShipSparePartsModel = {};
+            const entity: SpartUserListModel = {};
             entity.index = index + 1 || '';
-            entity.shelf = userDataCheck.shelf == 1 ? '已上架' : '未上架';
+            entity.type = userDataCheck.type;
             entity.guid = userDataCheck.guid || '';
-            entity.brand = userDataCheck.brand || '';
-            entity.fileLog = userDataCheck.fileLog || '';
             entity.tradeName = userDataCheck.tradeName || '';
+            entity.phoneNumber = userDataCheck.phoneNumber || '';
             entity.fileName = userDataCheck.fileName || '';
-            entity.fileType = userDataCheck.fileType || '';
-            entity.number = userDataCheck.number || '';
-            entity.quantitySum = userDataCheck.quantitySum || '';
-            entity.spartMoney = userDataCheck.money || '';
+            entity.createDate = userDataCheck.createDate || '';
+            entity.quantity = userDataCheck.quantity || '';
+            entity.spartMoney = userDataCheck.spartMoney || '';
             data_Source.push(entity);
           });
           this.setState({
@@ -161,7 +176,7 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
     // this.props.history.push('/spartPart/view/' + guid);
   };
   findAll = () => {
-    this.props.history.push('/spartPart/userList');
+    this.props.history.push('/spartPart/orderList');
   };
   changePage = (page: any) => {
     this.setState(
@@ -187,50 +202,41 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
             <Col span={24}>
               <InputGroup compact>
                 <Input
-                  style={{ width: '20%' }}
-                  placeholder="请输入商品编号搜索"
+                  style={{ width: '18%' }}
+                  placeholder="请输入订单编号搜索"
                   onChange={e => this.setState({ orderNumber: e.target.value })}
                 />
                 <Select
                   allowClear={true}
                   onSelect={(v: any) => {}}
-                  placeholder="商品类目检索"
-                  style={{ width: '20%' }}
+                  placeholder="商品分类检索"
+                  style={{ width: '18%' }}
                 >
-                  <Select.Option value={'发电机'}>发电机</Select.Option>
-                  <Select.Option value={'辅机'}>辅机</Select.Option>
+                  {this.state.spartLevelList.map((item: any) => (
+                    <Select.Option key={item.oneLevelName} value={item.oneLevelName}>
+                      {item.oneLevelName}
+                    </Select.Option>
+                  ))}
                 </Select>
                 <Input
-                  style={{ width: '20%' }}
+                  style={{ width: '18%' }}
                   placeholder="商品名称检索"
                   onChange={e => this.setState({ orderNumber: e.target.value })}
                 />
                 <Input
-                  style={{ width: '20%' }}
-                  placeholder="商品品牌检索"
+                  style={{ width: '18%' }}
+                  placeholder="订单联系人检索"
+                  onChange={e => this.setState({ orderNumber: e.target.value })}
+                />
+                <Input
+                  style={{ width: '18%' }}
+                  placeholder="订单联系方式检索"
                   onChange={e => this.setState({ orderNumber: e.target.value })}
                 />
                 <QueryButton
                   type="Query"
                   text="搜索"
                   event={() => this.findAll()}
-                  disabled={true}
-                />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <QueryButton
-                  type="BatchDelete"
-                  text="订单列表"
-                  event={() => {
-                    this.props.history.push('/spartPart/orderList');
-                  }}
-                  disabled={true}
-                />
-                <QueryButton
-                  type="Add"
-                  text="新增商品"
-                  event={() => {
-                    this.props.history.push('/spartPart/add/');
-                  }}
                   disabled={true}
                 />
               </InputGroup>
