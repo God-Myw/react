@@ -14,6 +14,8 @@ export interface ShipSparePartsModel {
 export interface SpartUserListModel {
   index?: string;
   guid?: string;
+  twoLevelId?: string;
+  accountId?: string;
   shelf?: string;
   spartMoney?: string;
   fileName?: any;

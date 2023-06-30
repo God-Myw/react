@@ -1190,6 +1190,47 @@ export const editBread = (pathname: string, routes: Route[]) => {
     }
   }
 
+  //审核客服船舶挂牌成交流水单审核面包屑
+  if (pathname.startsWith('/shipSpartOrder')) {
+    //航线配置面包屑
+    routes.push({
+      path: '/shipSpartOrder/list',
+      breadcrumbName: formatMessage({ id: '船舶挂牌成交流水单审核' }),
+    }); //审核船舶挂牌成交流水单审核面包屑
+    if (pathname.startsWith('/shipSpartOrder/view')) {
+      routes.push({
+        path: 'shipSpartOrder/view',
+        breadcrumbName: formatMessage({ id: '船舶挂牌成交流水单审核详情' }),
+      });
+    } //审核客服开票信息查看面包屑
+    if (pathname.startsWith('/shipSpartOrder/make')) {
+      routes.push({
+        path: 'shipSpartOrder/make',
+        breadcrumbName: formatMessage({ id: '查看开票信息' }),
+      });
+    }
+  }
+
+  //审核客服船舶供应流水单审核面包屑
+  if (pathname.startsWith('/shipSpartGongying')) {
+    //航线配置面包屑
+    routes.push({
+      path: '/shipSpartGongying/list',
+      breadcrumbName: formatMessage({ id: '船舶供应流水单审核' }),
+    }); //审核船舶供应流水单审核面包屑
+    if (pathname.startsWith('/shipSpartGongying/view')) {
+      routes.push({
+        path: 'shipSpartGongying/view',
+        breadcrumbName: formatMessage({ id: '船舶供应流水单审核详情' }),
+      });
+    } //审核客服开票信息查看面包屑
+    if (pathname.startsWith('/shipSpartGongying/make')) {
+      routes.push({
+        path: 'shipSpartGongying/make',
+        breadcrumbName: formatMessage({ id: '查看开票信息' }),
+      });
+    }
+  }
   /**审核客服结束*/
 
   /**管理员开始*/

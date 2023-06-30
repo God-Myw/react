@@ -17,12 +17,12 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
   private columns: ColumnProps<ShipSparePartsModel>[] = [
     {
       title: '订单号',
-      dataIndex: 'number',
+      dataIndex: 'suNumber',
       align: 'center',
     },
     {
       title: '商品分类',
-      dataIndex: '',
+      dataIndex: 'twoLevelId',
       align: 'center',
     },
     {
@@ -31,11 +31,7 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
       align: 'center',
       render: (v: any) => (
         <span style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-          <img
-            style={{ width: '70px', height: '23px' }}
-            src={`http://58.33.34.10:10443/images/spart/${v}`}
-            alt=""
-          />
+          <img style={{ width: '70px', height: '23px' }} src={v} alt="" />
         </span>
       ),
     },
@@ -64,10 +60,15 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
       title: '订单状态',
       dataIndex: 'type',
       align: 'center',
+      render: v => (
+        <span style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+          {v == 1 ? '待付款' : v == 2 ? '待发货' : v == 3 ? '已发货' : '已完成'}
+        </span>
+      ),
     },
     {
       title: '联系人',
-      dataIndex: '',
+      dataIndex: 'accountId',
       align: 'center',
     },
     {
@@ -134,11 +135,17 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
           forEach(response.data.records, (userDataCheck, index) => {
             const entity: SpartUserListModel = {};
             entity.index = index + 1 || '';
-            entity.type = userDataCheck.type;
+            entity.type = userDataCheck.type || '';
+            entity.twoLevelId = userDataCheck.twoLevelId || '';
+            entity.accountId = userDataCheck.accountId || '';
             entity.guid = userDataCheck.guid || '';
+            entity.suNumber = userDataCheck.suNumber || '';
             entity.tradeName = userDataCheck.tradeName || '';
             entity.phoneNumber = userDataCheck.phoneNumber || '';
-            entity.fileName = userDataCheck.fileName || '';
+            entity.fileName =
+              userDataCheck.fileSource == '1'
+                ? `http://58.33.34.10:10443/images/spart/${userDataCheck.fileName}`
+                : `http://39.105.35.83:10443/images/spart/${userDataCheck.fileName}`;
             entity.createDate = userDataCheck.createDate || '';
             entity.quantity = userDataCheck.quantity || '';
             entity.spartMoney = userDataCheck.spartMoney || '';

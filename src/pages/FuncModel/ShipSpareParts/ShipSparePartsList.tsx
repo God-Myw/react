@@ -100,6 +100,7 @@ class ShipSparePartsList extends React.Component<RouteComponentProps> {
   //初期化事件
   componentDidMount() {
     this.initData();
+    this.props.history.push('/spartPart/orderList');
   }
 
   //模拟数据

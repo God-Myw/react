@@ -1674,6 +1674,52 @@ export const router = [
               },
             ],
           },
+          //审核客服 === 船舶挂牌成交流水单审核
+          {
+            path: '/shipSpartGongying',
+            userType: 3,
+            routes: [
+              {
+                path: '/shipSpartGongying',
+                redirect: '/shipSpartGongying/list',
+              },
+              {
+                path: '/shipSpartGongying/list',
+                component: './FuncModel/ShipSpartGongying/ShipSpartGongyinglist',
+              },
+              {
+                path: '/shipSpartGongying/list/:status',
+                component: './FuncModel/ShipSpartGongying/ShipSpartGongyinglist',
+              },
+              {
+                path: '/shipSpartGongying/view/:guid',
+                component: './FuncModel/ShipSpartGongying/ShipSpartGongyingVIEW',
+              },
+            ],
+          },
+          //审核客服 === 船舶供应流水单审核
+          {
+            path: '/shipSpartOrder',
+            userType: 3,
+            routes: [
+              {
+                path: '/shipSpartOrder',
+                redirect: '/shipSpartOrder/list',
+              },
+              {
+                path: '/shipSpartOrder/list',
+                component: './FuncModel/shipSpartOrder/shipSpartOrderlist',
+              },
+              {
+                path: '/shipSpartOrder/list/:status',
+                component: './FuncModel/shipSpartOrder/shipSpartOrderlist',
+              },
+              {
+                path: '/shipSpartOrder/view/:guid/:status',
+                component: './FuncModel/shipSpartOrder/shipSpartOrderVIEW',
+              },
+            ],
+          },
           //在线查询===推广订单
           {
             path: '/adsOrder',

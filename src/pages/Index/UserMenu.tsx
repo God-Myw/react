@@ -437,7 +437,10 @@ class IndexMenu extends React.Component<
       eachMenu.push(
         <div key={key} className="noNeedAuth" onClick={clickEvent} style={divStyle}>
           <img className="img" src={menu.menuIcon} />
-          <a> {menu.menuName == '二维码上传' ? '船舶交易' : menu.menuName}</a>
+          <a style={{ width: '100%' }}>
+            {' '}
+            {menu.menuName == '二维码上传' ? '船舶交易' : menu.menuName}
+          </a>
           {spanStyle}
         </div>,
       );

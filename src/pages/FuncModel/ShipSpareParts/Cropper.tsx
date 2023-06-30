@@ -36,7 +36,6 @@ export const Demo: React.FC = () => {
       <div style={{ width: '100%' }}>
         <input type="file" onChange={onChange} />
         <br />
-        <br />
         <ReactCropper
           style={{ height: 400, width: '100%' }}
           initialAspectRatio={16 / 16}
