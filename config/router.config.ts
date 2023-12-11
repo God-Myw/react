@@ -33,6 +33,11 @@ export const router = [
         path: '/user/findPass',
         component: './Index/FindPass',
       },
+      {
+        name: 'spartDetail',
+        path: '/user/spartDetail',
+        component: '../layouts/spartDetail',
+      },
     ],
   },
   {
@@ -1078,7 +1083,8 @@ export const router = [
                 component: './FuncModel/NewOrder/OrderManagementList',
               },
               {
-                path: '/newOrder/view/:guid/:orderTitleType/:checkStatus/:deliverStatus/:orderAllType',
+                path:
+                  '/newOrder/view/:guid/:orderTitleType/:checkStatus/:deliverStatus/:orderAllType',
                 component: './FuncModel/NewOrder/newOrderView',
               },
             ],
@@ -1810,7 +1816,7 @@ export const router = [
               {
                 path: '/ShipTrading/aucTionView/:guid',
                 component: './FuncModel/ShipTrading/AucTionView',
-              }
+              },
             ],
           },
           {
